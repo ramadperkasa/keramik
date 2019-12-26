@@ -28,6 +28,25 @@
         itemsPerPageOptions: pagination
       }"
     >
+      <template v-slot:item.foto="{ item }">
+        <v-carousel show-arrows hide-delimiters height="75">
+          <v-carousel-item
+            v-for="(item, i) in item.produk_image"
+            :key="i"
+            reverse-transition="fade-transition"
+            transition="fade-transition"
+          >
+            <v-img
+              :src="item.file_nama"
+              style="cursor:pointer"
+              @click="blank(item.file_nama)"
+              contain
+              aspect-ratio="1"
+              width="75"
+            />
+          </v-carousel-item>
+        </v-carousel>
+      </template>
       <template v-slot:item.no="{ item }">
         {{
         table.items.data.indexOf(item) + table.items.from
@@ -51,15 +70,13 @@
       <template v-slot:item.action="{ item }">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-icon
+              v-on="on"
+              class="mr-2"
+              @click="dialog.menu.model = true;dialog.menu.id = item.id"
+            >mdi-dots-vertical</v-icon>
           </template>
-          <span color="primary">Edit</span>
-        </v-tooltip>
-        <v-tooltip right>
-          <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small @click="destroyItem(item)">mdi-delete</v-icon>
-          </template>
-          <span>Hapus</span>
+          <span color="primary">Lainnya</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -188,6 +205,30 @@
       {{ alert.text }}
       <v-btn color="primary" text @click="alert.model = false">Tutup</v-btn>
     </v-snackbar>
+
+    <v-bottom-sheet v-model="dialog.menu.model">
+      <v-list>
+        <v-subheader>Dialog Menu</v-subheader>
+        <v-list-item @click="dialog.menu.model = false;dialogEditItem(dialog.menu.id)">
+          <v-list-item-avatar>
+            <v-icon size="32px" tile>mdi-pencil-outline</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title>Edit Data Produk</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="dialog.menu.model = false;dialogDestroyItem(dialog.menu.id)">
+          <v-list-item-avatar>
+            <v-icon size="32px" tile>mdi-trash-can-outline</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title>Hapus Data Produk</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="dialog.menu.model = false;dialogProfile(dialog.menu.id)">
+          <v-list-item-avatar>
+            <v-icon size="32px" tile>mdi-eye-outline</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title>Lihat Data Produk</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-bottom-sheet>
   </app>
 </template>
 
@@ -204,6 +245,11 @@ export default {
         alert: {
           model: false,
           loading: false
+        },
+        menu: {
+          model: false,
+          loading: false,
+          id: ""
         }
       },
       form: {
@@ -227,6 +273,11 @@ export default {
             width: 15,
             sortable: false,
             value: "no"
+          },
+          {
+            text: "Foto",
+            value: "foto",
+            align: "left"
           },
           {
             text: "Nama",
@@ -457,6 +508,9 @@ export default {
           this.dialog.alert.loading = false;
           this.dialog.alert.model = false;
         });
+    },
+    blank(item) {
+      window.open(item, "_blank");
     }
   }
 };
