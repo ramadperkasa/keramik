@@ -115,11 +115,17 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field
+            <v-combobox
               v-model="form.jenis_legalitas_id"
-              label="Jenis Legalitas Id *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
+              :items="select.legalitas"
+              label="Nama Legalitas *"
+              item-value="id"
+              item-text="nama_jenis"
+              :return-object="false"
+              clearable
+            >
+              <template v-slot:selection="data">{{filterDataLegalitas(data.item)}}</template>
+            </v-combobox>
             <v-text-field v-model="form.nomor" label="Nomor *" hint="Contoh : Dipointer"></v-text-field>
             <v-text-field v-model="form.foto_id" label="Foto Id *" hint="Contoh : Dipointer"></v-text-field>
           </v-card-text>
@@ -230,6 +236,9 @@ export default {
       },
       loading: {
         table: false
+      },
+      select: {
+        legalitas: ""
       }
     };
   },
@@ -252,6 +261,9 @@ export default {
     icon_form() {
       return store.getters.getFormIcon;
     }
+  },
+  mounted() {
+    this.fetchLegalitas();
   },
   methods: {
     fetchMerchantLegalitas() {
@@ -276,6 +288,19 @@ export default {
         .catch(error => {
           this.alert.model = true;
           this.alert.text = "Terjadi Kesalahan";
+        })
+        .finally(() => {
+          this.loading.table = false;
+        });
+    },
+    fetchLegalitas() {
+      axios
+        .get("get/legalitas")
+        .then(response => {
+          this.select.legalitas = response.data.legalitas;
+        })
+        .catch(error => {
+          console.log(error);
         })
         .finally(() => {
           this.loading.table = false;
@@ -411,6 +436,14 @@ export default {
     },
     blank(item) {
       window.open(item, "_blank");
+    },
+    filterDataLegalitas(item) {
+      const legalitas = this.select.legalitas;
+      if (legalitas.length > 0) {
+        return legalitas.find(f => {
+          return f.id === item;
+        }).nama_jenis;
+      }
     }
   }
 };
