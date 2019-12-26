@@ -67,6 +67,11 @@
         item.kondisi == '0' ? 'Baru' : 'Bekas'
         }}
       </template>
+      <template v-slot:item.berat_produk="{ item }">
+        {{
+        item.berat_produk+'g'
+        }}
+      </template>
       <template v-slot:item.action="{ item }">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
@@ -227,111 +232,131 @@
     <v-dialog fullscreen hide-overlay v-model="dialog.profile.model">
       <v-card>
         <v-card-title primary-title>
-          <v-icon class="pr-2">mdi-account-outline</v-icon>Detail Merchant
+          <v-icon class="pr-2">mdi-information-outline</v-icon>Detail Produk
           <v-spacer></v-spacer>
-          <v-btn text @click="dialog.profile.model = false;dialog.profile.address = ''">
+          <v-btn text @click="dialog.profile.model = false;dialog.profile.variant = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-title>
         <v-divider></v-divider>
-        <v-container>
+        <v-container v-if="!dialog.profile.variant">
           <v-card-text>
-            <p class="display-1 text-center" v-if="dialog.profile.address == false">Detail Merchant</p>
-            <p class="display-1 text-center" v-else>
-              <v-btn icon>
-                <v-icon large @click="dialog.profile.address=''">mdi-arrow-left</v-icon>
-              </v-btn>Detail Alamat
-            </p>
+            <p class="display-1 text-center">Detail Produk</p>
             <p
               class="subtitle text-center"
-              v-if="dialog.profile.address == false"
             >Info dasar, seperti nama dan foto, yang digunakan untuk aplikasi ini</p>
-            <p class="subtitle text-center" v-else>Halaman Ini menunjukan lokasi keberadaan di maps</p>
 
-            <v-card class="mx-auto" width="75%" outlined v-if="dialog.profile.address == false">
+            <v-card class="mx-auto" width="75%" outlined>
               <v-list-item three-line>
                 <v-list-item-content>
-                  <v-list-item-title class="headline mb-1">Profil</v-list-item-title>
-                  <v-list-item-subtitle>
-                    Greyhound divisely hello coldly
-                    fonwderfully
-                  </v-list-item-subtitle>
+                  <v-list-item-title class="headline mb-1">Detail Produk</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title>Logo Merchant</v-list-item-title>
+                  <v-list-item-title>Foto Produk</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-content>
-                  <v-list-item-subtitle>
-                    Logo Merchant untuk mempersonifikasi akun
-                    merchant
-                  </v-list-item-subtitle>
+                  <v-list-item-subtitle>Foto produk, yang akan di tampilkan di user</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-avatar>
-                  <v-img
-                    :src="select.profile.logo_merchant ? select.profile.logo_merchant : 'https://image.flaticon.com/icons/png/512/747/747376.png'"
-                  ></v-img>
+                  <v-carousel show-arrows-on-hover hide-delimiters height="75">
+                    <v-carousel-item
+                      v-for="(item, i) in dialog.menu.id.produk_image"
+                      :key="i"
+                      reverse-transition="fade-transition"
+                      transition="fade-transition"
+                    >
+                      <v-img
+                        :src="item.file_nama"
+                        style="cursor:pointer"
+                        @click="blank(item.file_nama)"
+                        contain
+                        aspect-ratio="1"
+                        width="175"
+                      />
+                    </v-carousel-item>
+                  </v-carousel>
                 </v-list-item-avatar>
               </v-list-item>
               <v-divider></v-divider>
-              <v-list-item
-                @click="select.profile.cover_merchant ? action(select.profile.cover_merchant) : ''"
-              >
-                <v-list-item-content>
-                  <v-list-item-title>Cover Merchant</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-content>
-                  <v-list-item-subtitle>
-                    Cover Merchant untuk mempersonifikasi akun
-                    merchant
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-                <v-list-item-avatar v-if="!select.profile.cover_merchant">
-                  <v-img src="https://image.flaticon.com/icons/png/512/747/747376.png"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-action @click="action(select.profile.cover_merchant)" v-else>
-                  <v-btn icon>
-                    <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
-                  </v-btn>
-                </v-list-item-action>
-              </v-list-item>
-              <v-divider></v-divider>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title>Nama</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-content>
-                  <v-list-item-subtitle>{{select.profile.nama_merchant}}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>Email Kontak</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-content>
-                  <v-list-item-subtitle>{{select.profile.email_contact}}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>Email Notifikasi</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-content>
-                  <v-list-item-subtitle>{{select.profile.email_notifikasi}}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
-              <v-list-item @click="dialog.profile.address = true">
-                <v-list-item-content>
-                  <v-list-item-title>Alamat</v-list-item-title>
+                  <v-list-item-title>Kode Produk</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-content>
                   <v-list-item-subtitle
-                    style="white-space:normal !important"
-                  >{{select.profile.alamat}}</v-list-item-subtitle>
+                    style="white-space:normal"
+                  >{{dialog.menu.id.kode_produk_barang}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Nama Produk</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle style="white-space:normal">{{dialog.menu.id.nama_produk}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Kategori Produk</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle
+                    style="white-space:normal"
+                  >{{dialog.menu.id.kategori ? dialog.menu.id.kategori.nama : ''}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Berat Produk</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle
+                    style="white-space:normal"
+                  >{{dialog.menu.id.berat_produk+'g'}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Kondisi Produk</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle
+                    style="white-space:normal"
+                  >{{dialog.menu.id.kondisi == '0' ? 'Baru' : 'Bekas'}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Status Produk</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle
+                    style="white-space:normal"
+                  >{{dialog.menu.id.status_produk == '0' ? 'Aktif' : 'Tidak Aktif'}}</v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
+              </v-list-item>
+
+              <v-divider></v-divider>
+              <v-list-item @click="dialog.profile.variant = true">
+                <v-list-item-content>
+                  <v-list-item-title>Variant</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle style="white-space:normal">Varian di produk produk anda</v-list-item-subtitle>
                 </v-list-item-content>
 
                 <v-list-item-action>
@@ -343,52 +368,39 @@
               <v-divider></v-divider>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title>Website</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-content>
-                  <v-list-item-subtitle>{{select.profile.website}}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>Jenis Merchant</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-content>
-                  <v-list-item-subtitle>{{select.profile.jenis_merchant_id}}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>Status</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-content>
-                  <v-list-item-subtitle>{{select.profile.status == 0 ? 'Pending' : select.profile.status == 1 ? 'Aktif' : 'Tidak Aktif' }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
-              <v-list-item>
-                <v-list-item-content>
                   <v-list-item-title>Deskripsi</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-content>
-                  <v-list-item-subtitle>{{select.profile.deskripsi_merchant}}</v-list-item-subtitle>
+                  <v-list-item-subtitle
+                    style="white-space:normal"
+                  >{{dialog.menu.id.deskripsi_produk}}</v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
               </v-list-item>
-            </v-card>
-            <v-card class="mx-auto" width="75%" outlined v-else>
-              <iframe
-                :src="'https://www.google.co.id/maps?q=' + select.profile.latitude + ',' + select.profile.longitude + '&z=16&output=embed'"
-                width="100%"
-                height="650"
-                frameborder="0"
-                style="border:0"
-                allowfullscreen
-              ></iframe>
             </v-card>
           </v-card-text>
         </v-container>
+        <v-card-text v-else>
+          <p class="display-1 text-center pa-3">
+            <v-btn icon>
+              <v-icon large @click="dialog.profile.variant=false">mdi-arrow-left</v-icon>
+            </v-btn>
+            <span class="pl-3">Detail Variant</span>
+          </p>
+          <v-data-table
+            flat
+            :headers="table.variant"
+            :items="dialog.menu.id.produk_variant"
+            width="100%"
+            hide-default-footer
+          >
+            <template v-slot:item.nama="{ item }">
+              {{
+              item.merchant_variant.nama_variant
+              }}
+            </template>
+          </v-data-table>
+        </v-card-text>
       </v-card>
     </v-dialog>
   </app>
@@ -416,7 +428,7 @@ export default {
         profile: {
           model: false,
           loading: false,
-          item: {}
+          variant: false
         }
       },
       form: {
@@ -442,6 +454,11 @@ export default {
             value: "no"
           },
           {
+            text: "Kode Barang",
+            value: "kode_produk_barang",
+            align: "left"
+          },
+          {
             text: "Foto",
             value: "foto",
             align: "left"
@@ -454,11 +471,6 @@ export default {
           {
             text: "Kategori",
             value: "produk_kategori_id",
-            align: "left"
-          },
-          {
-            text: "Kode Barang",
-            value: "kode_produk_barang",
             align: "left"
           },
           {
@@ -482,6 +494,12 @@ export default {
             sortable: false,
             width: "10%"
           }
+        ],
+        variant: [
+          { text: "Nama Variant", value: "nama", align: "left" },
+          { text: "Harga", value: "harga", align: "left" },
+          { text: "Stok", value: "stok", align: "left" },
+          { text: "Stok Minimum", value: "stok_minimum", align: "left" }
         ],
         items: []
       },
@@ -706,7 +724,7 @@ export default {
       window.open(item, "_blank");
     },
     dialogProfile(item) {
-      this.select.profile = [];
+      this.menu.id = [];
       axios
         .get("merchant/produk/detail", {
           params: {
@@ -714,7 +732,7 @@ export default {
           }
         })
         .then(response => {
-          this.select.profile = response.data.data;
+          this.menu.id = response.data.data;
           this.dialog.profile.model = true;
         })
         .catch(error => {
