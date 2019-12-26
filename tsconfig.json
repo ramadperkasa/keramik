@@ -14,7 +14,9 @@
     "types": [
       "webpack-env",
       "mocha",
-      "chai"
+      "chai",
+      "vuetify",
+      "vue-content-loader"
     ],
     "paths": {
       "@/*": [
@@ -33,7 +35,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "index.d.ts",
   ],
   "exclude": [
     "node_modules"
