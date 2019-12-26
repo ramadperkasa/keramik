@@ -105,7 +105,17 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field v-model="form.hari_id" label="Hari *" hint="Contoh : Dipointer"></v-text-field>
+            <v-combobox
+              v-model="form.hari_id"
+              :items="select.hari"
+              label="Nama hari *"
+              item-value="id"
+              item-text="nama_hari"
+              :return-object="false"
+              clearable
+            >
+              <template v-slot:selection="data">{{filterDataBank(data.item)}}</template>
+            </v-combobox>
             <v-text-field v-model="form.jam_buka" label="Jam Buka *" hint="Contoh : Dipointer"></v-text-field>
             <v-text-field v-model="form.jam_tutup" label="Jam Tutup *" hint="Contoh : Dipointer"></v-text-field>
           </v-card-text>
@@ -215,6 +225,9 @@ export default {
       },
       loading: {
         table: false
+      },
+      select: {
+        hari: ""
       }
     };
   },
@@ -237,6 +250,9 @@ export default {
     icon_form() {
       return store.getters.getFormIcon;
     }
+  },
+  mounted() {
+    this.fetchHari();
   },
   methods: {
     fetchMerchantOperasional() {
@@ -261,6 +277,19 @@ export default {
         .catch(error => {
           this.alert.model = true;
           this.alert.text = "Terjadi Kesalahan";
+        })
+        .finally(() => {
+          this.loading.table = false;
+        });
+    },
+    fetchHari() {
+      axios
+        .get("get/hari")
+        .then(response => {
+          this.select.hari = response.data.hari;
+        })
+        .catch(error => {
+          console.log(error);
         })
         .finally(() => {
           this.loading.table = false;
@@ -391,6 +420,14 @@ export default {
           this.dialog.alert.loading = false;
           this.dialog.alert.model = false;
         });
+    },
+    filterDataHari(item) {
+      const hari = this.select.hari;
+      if (hari.length > 0) {
+        return hari.find(f => {
+          return f.id === item;
+        }).hari_nama;
+      }
     }
   }
 };
