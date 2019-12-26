@@ -232,7 +232,7 @@ export default {
       axios
         .get("jenis/legalitas", { params })
         .then(response => {
-          this.table.items = response.data.jenislegalitas;
+          this.table.items = response.data.data;
         })
         .catch(error => {
           this.alert.model = true;
