@@ -102,11 +102,17 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field
+            <v-combobox
               v-model="form.jenis_medsos_id"
-              label="Jenis Media Sosial *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
+              :items="select.medsos"
+              label="Nama Media Sosial *"
+              item-value="id"
+              item-text="nama_jenis"
+              :return-object="false"
+              clearable
+            >
+              <template v-slot:selection="data">{{filterDataMedsos(data.item)}}</template>
+            </v-combobox>
             <v-text-field
               v-model="form.nama_medsos"
               label="Nama Media Sosial *"
@@ -210,6 +216,9 @@ export default {
         model: false,
         text: ""
       },
+      select: {
+        medsos: ""
+      },
       loading: {
         table: false
       }
@@ -235,6 +244,9 @@ export default {
       return store.getters.getFormIcon;
     }
   },
+  mounted() {
+    this.fetchMedsos();
+  },
   methods: {
     fetchMerchantMedsos() {
       this.loading.table = true;
@@ -258,6 +270,19 @@ export default {
         .catch(error => {
           this.alert.model = true;
           this.alert.text = "Terjadi Kesalahan";
+        })
+        .finally(() => {
+          this.loading.table = false;
+        });
+    },
+    fetchMedsos() {
+      axios
+        .get("get/medsos")
+        .then(response => {
+          this.select.medsos = response.data.medsos;
+        })
+        .catch(error => {
+          console.log(error);
         })
         .finally(() => {
           this.loading.table = false;
@@ -388,6 +413,14 @@ export default {
           this.dialog.alert.loading = false;
           this.dialog.alert.model = false;
         });
+    },
+    filterDataMedsos(item) {
+      const medsos = this.select.medsos;
+      if (medsos.length > 0) {
+        return medsos.find(f => {
+          return f.id === item;
+        }).nama_jenis;
+      }
     }
   }
 };
