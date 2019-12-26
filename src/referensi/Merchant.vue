@@ -320,7 +320,7 @@
     <v-dialog fullscreen hide-overlay v-model="dialog.profile.model">
       <v-card>
         <v-card-title primary-title>
-          <v-icon class="pr-2">mdi-account-outline</v-icon>Detail Merchant
+          <v-icon class="pr-2">mdi-information-outline</v-icon>Detail Merchant
           <v-spacer></v-spacer>
           <v-btn text @click="dialog.profile.model = false;dialog.profile.address = ''">
             <v-icon>mdi-close</v-icon>
@@ -345,10 +345,6 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <v-list-item-title class="headline mb-1">Profil</v-list-item-title>
-                  <v-list-item-subtitle>
-                    Greyhound divisely hello coldly
-                    fonwderfully
-                  </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
@@ -383,7 +379,7 @@
                 <v-list-item-avatar v-if="!select.profile.cover_merchant">
                   <v-img src="https://image.flaticon.com/icons/png/512/747/747376.png"></v-img>
                 </v-list-item-avatar>
-                <v-list-item-action @click="action(select.profile.cover_merchant)" v-else>
+                <v-list-item-action v-else>
                   <v-btn icon>
                     <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
                   </v-btn>
@@ -397,6 +393,7 @@
                 <v-list-item-content>
                   <v-list-item-subtitle>{{select.profile.nama_merchant}}</v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
@@ -406,6 +403,7 @@
                 <v-list-item-content>
                   <v-list-item-subtitle>{{select.profile.email_contact}}</v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
@@ -415,6 +413,7 @@
                 <v-list-item-content>
                   <v-list-item-subtitle>{{select.profile.email_notifikasi}}</v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item @click="dialog.profile.address = true">
@@ -441,6 +440,7 @@
                 <v-list-item-content>
                   <v-list-item-subtitle>{{select.profile.website}}</v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
@@ -450,6 +450,7 @@
                 <v-list-item-content>
                   <v-list-item-subtitle>{{select.profile.jenis_merchant_id}}</v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
@@ -459,6 +460,7 @@
                 <v-list-item-content>
                   <v-list-item-subtitle>{{select.profile.status == 0 ? 'Pending' : select.profile.status == 1 ? 'Aktif' : 'Tidak Aktif' }}</v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item>
@@ -466,8 +468,11 @@
                   <v-list-item-title>Deskripsi</v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-content>
-                  <v-list-item-subtitle>{{select.profile.deskripsi_merchant}}</v-list-item-subtitle>
+                  <v-list-item-subtitle
+                    style="white-space:normal !important"
+                  >{{select.profile.deskripsi_merchant}}</v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-avatar></v-list-item-avatar>
               </v-list-item>
             </v-card>
             <v-card class="mx-auto" width="75%" outlined v-else>
