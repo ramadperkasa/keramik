@@ -29,7 +29,7 @@
       }"
     >
       <template v-slot:item.foto="{ item }">
-        <v-carousel show-arrows hide-delimiters height="75">
+        <v-carousel show-arrows-on-hover hide-delimiters height="75">
           <v-carousel-item
             v-for="(item, i) in item.produk_image"
             :key="i"
@@ -73,7 +73,7 @@
             <v-icon
               v-on="on"
               class="mr-2"
-              @click="dialog.menu.model = true;dialog.menu.id = item.id"
+              @click="dialog.menu.model = true;dialog.menu.id = item"
             >mdi-dots-vertical</v-icon>
           </template>
           <span color="primary">Lainnya</span>
@@ -129,11 +129,6 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field
-              v-model="form.merchant_id"
-              label="Merchant Id *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
             <v-text-field
               v-model="form.nama_produk"
               label="Nama Produk *"
@@ -209,19 +204,19 @@
     <v-bottom-sheet v-model="dialog.menu.model">
       <v-list>
         <v-subheader>Dialog Menu</v-subheader>
-        <v-list-item @click="dialog.menu.model = false;dialogEditItem(dialog.menu.id)">
+        <v-list-item @click="dialog.menu.model = false;editItem(dialog.menu.id.id)">
           <v-list-item-avatar>
             <v-icon size="32px" tile>mdi-pencil-outline</v-icon>
           </v-list-item-avatar>
           <v-list-item-title>Edit Data Produk</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="dialog.menu.model = false;dialogDestroyItem(dialog.menu.id)">
+        <v-list-item @click="dialog.menu.model = false;destroyItem(dialog.menu.id.id)">
           <v-list-item-avatar>
             <v-icon size="32px" tile>mdi-trash-can-outline</v-icon>
           </v-list-item-avatar>
           <v-list-item-title>Hapus Data Produk</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="dialog.menu.model = false;dialogProfile(dialog.menu.id)">
+        <v-list-item @click="dialog.menu.model = false;dialog.profile.model = true;">
           <v-list-item-avatar>
             <v-icon size="32px" tile>mdi-eye-outline</v-icon>
           </v-list-item-avatar>
@@ -229,6 +224,173 @@
         </v-list-item>
       </v-list>
     </v-bottom-sheet>
+    <v-dialog fullscreen hide-overlay v-model="dialog.profile.model">
+      <v-card>
+        <v-card-title primary-title>
+          <v-icon class="pr-2">mdi-account-outline</v-icon>Detail Merchant
+          <v-spacer></v-spacer>
+          <v-btn text @click="dialog.profile.model = false;dialog.profile.address = ''">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-container>
+          <v-card-text>
+            <p class="display-1 text-center" v-if="dialog.profile.address == false">Detail Merchant</p>
+            <p class="display-1 text-center" v-else>
+              <v-btn icon>
+                <v-icon large @click="dialog.profile.address=''">mdi-arrow-left</v-icon>
+              </v-btn>Detail Alamat
+            </p>
+            <p
+              class="subtitle text-center"
+              v-if="dialog.profile.address == false"
+            >Info dasar, seperti nama dan foto, yang digunakan untuk aplikasi ini</p>
+            <p class="subtitle text-center" v-else>Halaman Ini menunjukan lokasi keberadaan di maps</p>
+
+            <v-card class="mx-auto" width="75%" outlined v-if="dialog.profile.address == false">
+              <v-list-item three-line>
+                <v-list-item-content>
+                  <v-list-item-title class="headline mb-1">Profil</v-list-item-title>
+                  <v-list-item-subtitle>
+                    Greyhound divisely hello coldly
+                    fonwderfully
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Logo Merchant</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>
+                    Logo Merchant untuk mempersonifikasi akun
+                    merchant
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-avatar>
+                  <v-img
+                    :src="select.profile.logo_merchant ? select.profile.logo_merchant : 'https://image.flaticon.com/icons/png/512/747/747376.png'"
+                  ></v-img>
+                </v-list-item-avatar>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item
+                @click="select.profile.cover_merchant ? action(select.profile.cover_merchant) : ''"
+              >
+                <v-list-item-content>
+                  <v-list-item-title>Cover Merchant</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>
+                    Cover Merchant untuk mempersonifikasi akun
+                    merchant
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-avatar v-if="!select.profile.cover_merchant">
+                  <v-img src="https://image.flaticon.com/icons/png/512/747/747376.png"></v-img>
+                </v-list-item-avatar>
+                <v-list-item-action @click="action(select.profile.cover_merchant)" v-else>
+                  <v-btn icon>
+                    <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Nama</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>{{select.profile.nama_merchant}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Email Kontak</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>{{select.profile.email_contact}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Email Notifikasi</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>{{select.profile.email_notifikasi}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item @click="dialog.profile.address = true">
+                <v-list-item-content>
+                  <v-list-item-title>Alamat</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle
+                    style="white-space:normal !important"
+                  >{{select.profile.alamat}}</v-list-item-subtitle>
+                </v-list-item-content>
+
+                <v-list-item-action>
+                  <v-btn icon>
+                    <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Website</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>{{select.profile.website}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Jenis Merchant</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>{{select.profile.jenis_merchant_id}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Status</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>{{select.profile.status == 0 ? 'Pending' : select.profile.status == 1 ? 'Aktif' : 'Tidak Aktif' }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>Deskripsi</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>{{select.profile.deskripsi_merchant}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card>
+            <v-card class="mx-auto" width="75%" outlined v-else>
+              <iframe
+                :src="'https://www.google.co.id/maps?q=' + select.profile.latitude + ',' + select.profile.longitude + '&z=16&output=embed'"
+                width="100%"
+                height="650"
+                frameborder="0"
+                style="border:0"
+                allowfullscreen
+              ></iframe>
+            </v-card>
+          </v-card-text>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </app>
 </template>
 
@@ -250,6 +412,11 @@ export default {
           model: false,
           loading: false,
           id: ""
+        },
+        profile: {
+          model: false,
+          loading: false,
+          item: {}
         }
       },
       form: {
@@ -321,6 +488,32 @@ export default {
       alert: {
         model: false,
         text: ""
+      },
+      select: {
+        kondisi: [
+          {
+            id: "0",
+            text: "Baru"
+          },
+          {
+            id: "1",
+            text: "Bekas"
+          }
+        ],
+        status: [
+          {
+            id: "0",
+            text: "Aktif"
+          },
+          {
+            id: "1",
+            text: "Tidak Aktif"
+          }
+        ],
+        kategori1: [],
+        kategori2: [],
+        kategori3: [],
+        profile: {}
       },
       loading: {
         table: false
@@ -511,6 +704,23 @@ export default {
     },
     blank(item) {
       window.open(item, "_blank");
+    },
+    dialogProfile(item) {
+      this.select.profile = [];
+      axios
+        .get("merchant/produk/detail", {
+          params: {
+            id: item
+          }
+        })
+        .then(response => {
+          this.select.profile = response.data.data;
+          this.dialog.profile.model = true;
+        })
+        .catch(error => {
+          this.alert.model = true;
+          this.alert.text = "Terjadi Kesalahan";
+        });
     }
   }
 };
