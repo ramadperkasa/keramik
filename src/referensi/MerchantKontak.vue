@@ -216,7 +216,7 @@ export default {
         table: false
       },
       select: {
-        kontak
+        kontak: ""
       }
     };
   },
@@ -273,9 +273,9 @@ export default {
     },
     fetchKontak() {
       axios
-        .get("get/jenis/kontak")
+        .get("get/kontak")
         .then(response => {
-          this.select.kontak = response.data.data;
+          this.select.kontak = response.data.kontak;
         })
         .catch(error => {
           console.log(error);
@@ -412,7 +412,7 @@ export default {
           this.dialog.alert.model = false;
         });
     },
-    filterDataBank(item) {
+    filterDataKontak(item) {
       const kontak = this.select.kontak;
       if (kontak.length > 0) {
         return kontak.find(f => {
