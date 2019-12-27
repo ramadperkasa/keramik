@@ -111,16 +111,16 @@
     >
       <v-stepper alt-labels class="elevation-0" v-model="steps">
         <v-stepper-header class="elevation-0">
-          <v-stepper-step editable class="text-center" step="1">
-            <span class="text-center">Select campaign settings</span>
+          <v-stepper-step editable step="1">
+            <span class="text-center">Data General</span>
           </v-stepper-step>
           <v-divider></v-divider>
           <v-stepper-step editable step="2">
-            <span class="text-center">Create an ad group</span>
+            <span class="text-center">Alamat</span>
           </v-stepper-step>
           <v-divider></v-divider>
           <v-stepper-step editable step="3">
-            <span class="text-center">Create an ad</span>
+            <span class="text-center">Lainnya</span>
           </v-stepper-step>
         </v-stepper-header>
         <v-divider></v-divider>
@@ -135,25 +135,26 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-text-field
+                <v-select
                   v-model="form.jenis_merchant_id"
+                  :items="select.jenis"
                   label="Jenis Merchant *"
-                  hint="Contoh : Dipointer"
-                ></v-text-field>
+                ></v-select>
               </v-col>
               <v-col cols="6">
-                <v-text-field
-                  v-model="form.logo_merchant"
+                <v-file-input
                   label="Logo Merchant *"
                   hint="Contoh : Dipointer"
-                ></v-text-field>
+                  @change="onLogoChange"
+                  type="file"
+                ></v-file-input>
               </v-col>
               <v-col cols="6">
-                <v-text-field
-                  v-model="form.cover_merchant"
+                <v-file-input
                   label="Cover Merchant *"
                   hint="Contoh : Dipointer"
-                ></v-text-field>
+                  @change="onCoverChange"
+                ></v-file-input>
               </v-col>
               <v-col cols="12">
                 <v-textarea
@@ -291,16 +292,17 @@
               label="Email Notifikasi *"
               hint="Contoh : Dipointer"
             ></v-text-field>
-            <v-text-field v-model="form.zoom" label="Zoom *" hint="Contoh : Dipointer"></v-text-field>
             <v-text-field v-model="form.website" label="Website *" hint="Contoh : Dipointer"></v-text-field>
-            <v-text-field v-model="form.status" label="Status *" hint="Contoh : Dipointer"></v-text-field>
+            <v-select v-model="form.status" :items="select.status" label="Status *"></v-select>
             <div class="mt-3">
               <v-row class="mr-3">
                 <v-spacer></v-spacer>
                 <v-btn text color="primary" @click="steps--">
                   <v-icon>mdi-arrow-left</v-icon>Kembali
                 </v-btn>
-                <v-btn color="primary" @click>Submit</v-btn>
+                <v-btn color="primary" @click="steps++">
+                  <v-icon>mdi-arrow-right</v-icon>Lanjut
+                </v-btn>
               </v-row>
             </div>
           </v-card>
@@ -678,7 +680,31 @@ export default {
         kabupaten: "",
         kecamatan: "",
         kelurahan: "",
-        profile: []
+        profile: [],
+        jenis: [
+          {
+            value: "0",
+            text: "Perorangan"
+          },
+          {
+            value: "1",
+            text: "Perusahaan"
+          }
+        ],
+        status: [
+          {
+            value: "0",
+            text: "Pending"
+          },
+          {
+            value: "1",
+            text: "Aktif"
+          },
+          {
+            value: "2",
+            text: "Tidak Aktf"
+          }
+        ]
       },
       steps: 1
     };
@@ -901,9 +927,9 @@ export default {
         .post("merchant/create", params)
         .then(response => {
           this.table.items = response.data;
-          this.dialog.form.model = false;
+          // this.dialog.form.model = false;
           this.table.options.page = 1;
-          this.fetchMerchant();
+          // this.fetchMerchant();
           this.alert.model = true;
           this.alert.text = "Data Berhasil Di Tambah";
         })
@@ -1026,6 +1052,49 @@ export default {
     },
     action(item) {
       window.open(item, "_blank");
+    },
+    filterDataHari(item) {
+      const hari = this.select.hari;
+      if (hari.length > 0) {
+        return hari.find(f => {
+          return f.id === item;
+        }).nama_hari;
+      }
+    },
+    filterDataKontak(item) {
+      const kontak = this.select.kontak;
+      if (kontak.length > 0) {
+        return kontak.find(f => {
+          return f.id === item;
+        }).nama_jenis;
+      }
+    },
+    filterDataLegalitas(item) {
+      const legalitas = this.select.legalitas;
+      if (legalitas.length > 0) {
+        return legalitas.find(f => {
+          return f.id === item;
+        }).nama_jenis;
+      }
+    },
+    filterDataBank(item) {
+      const bank = this.select.bank;
+      if (bank.length > 0) {
+        return bank.find(f => {
+          return f.id === item;
+        }).bank_nama;
+      }
+    },
+    filterDataMedsos(item) {
+      const medsos = this.select.medsos;
+      if (medsos.length > 0) {
+        return medsos.find(f => {
+          return f.id === item;
+        }).nama_jenis;
+      }
+    },
+    setGaleriModel() {
+      store.commit("setGaleriModel", true);
     }
   }
 };

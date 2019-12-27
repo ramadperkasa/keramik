@@ -144,7 +144,7 @@ const data = () => {
         sub: false
       },
       {
-        text: "Kategori",
+        text: "Kategori Produk",
         icon: "mdi-format-list-text",
         children: [
           {
@@ -152,11 +152,11 @@ const data = () => {
             action: "/Produk/kategori"
           },
           {
-            text: "Kategori2",
+            text: "SubKategori 1",
             action: "/Produk/sub1/kategori"
           },
           {
-            text: "Kategori3",
+            text: "SubKategori 2",
             action: "/Produk/sub2/kategori"
           }
         ],

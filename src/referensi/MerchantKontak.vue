@@ -254,7 +254,8 @@ export default {
             ? "id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
-        search: this.search
+        search: this.search,
+        merchant_id: this.$route.params.id
       };
 
       const params = data;
@@ -328,6 +329,7 @@ export default {
         });
     },
     createMerchantKontak() {
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/kontak/create", params)
@@ -349,6 +351,7 @@ export default {
     },
     updateNewMerchantKontak() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/kontak/update", params)
@@ -370,6 +373,7 @@ export default {
     },
     createNewMerchantKontak() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/kontak/create", params)
@@ -392,10 +396,10 @@ export default {
     destroyMerchantKontak() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      const merchant_id = this.form.merchant_id;
+      const merchant_id = this.$route.params.id;
       const jenis_kontak_id = this.form.jenis_kontak_id;
       this.axios
-        .post("merchant/kontak/destroy", { id })
+        .post("merchant/kontak/destroy", { id, merchant_id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;

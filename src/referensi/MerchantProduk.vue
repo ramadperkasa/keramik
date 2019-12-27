@@ -135,6 +135,22 @@
         <v-container>
           <v-card-text>
             <v-row>
+              <v-col cols="12">
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title>Jenis Kelamin</v-list-item-title>
+                  </v-list-item-content>
+                  <v-list-item-content>
+                    <v-list-item-subtitle>Laki laki</v-list-item-subtitle>
+                  </v-list-item-content>
+
+                  <v-list-item-action>
+                    <v-btn icon>
+                      <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+              </v-col>
               <v-col cols="6">
                 <v-text-field
                   v-model="form.kode_produk_barang"
@@ -659,7 +675,7 @@ export default {
         });
     },
     fetchProdukKategori() {
-      axios
+      this.axios
         .get("get/produk/kategori")
         .then(response => {
           this.select.kategori1 = response.data.kategori;
@@ -677,7 +693,7 @@ export default {
         produk_kategori_id
       };
       const params = data;
-      axios
+      this.axios
         .get("get/produk/subkategori1", { params })
         .then(response => {
           this.select.kategori2 = response.data.kategori;
@@ -691,7 +707,6 @@ export default {
         });
     },
     fetchProdukKategori3(produk_sub1_kategori_id) {
-      console.log("oke");
       this.form.produk_kategori_id3 = this.form.produk_kategori_id3;
       this.select.kategori3 = [];
       this.loading.kategori3 = true;
@@ -699,7 +714,7 @@ export default {
         produk_sub1_kategori_id
       };
       const params = data;
-      axios
+      this.axios
         .get("get/produk/subkategori2", { params })
         .then(response => {
           this.select.kategori3 = response.data.kategori;
@@ -744,6 +759,7 @@ export default {
     },
     updateMerchantProduk() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/produk/update", params)
@@ -764,6 +780,7 @@ export default {
         });
     },
     createMerchantProduk() {
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/produk/create", params)
@@ -785,6 +802,7 @@ export default {
     },
     updateNewMerchantProduk() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/produk/update", params)
@@ -806,6 +824,7 @@ export default {
     },
     createNewMerchantProduk() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/produk/create", params)
@@ -828,8 +847,9 @@ export default {
     destroyMerchantProduk() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
+      const merchant_id = this.$route.params.id;
       this.axios
-        .post("merchant/produk/destroy", { id })
+        .post("merchant/produk/destroy", { id, merchant_id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -851,7 +871,7 @@ export default {
     },
     dialogProfile(item) {
       this.menu.id = [];
-      axios
+      this.axios
         .get("merchant/produk/detail", {
           params: {
             id: item

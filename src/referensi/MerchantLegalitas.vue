@@ -301,7 +301,8 @@ export default {
             ? "id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
-        search: this.search
+        search: this.search,
+        merchant_id: this.$route.params.id
       };
 
       const params = data;
@@ -319,7 +320,7 @@ export default {
         });
     },
     fetchLegalitas() {
-      axios
+      this.axios
         .get("get/legalitas")
         .then(response => {
           this.select.legalitas = response.data.legalitas;
@@ -376,6 +377,7 @@ export default {
         });
     },
     createMerchantLegalitas() {
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/legalitas/create", params)
@@ -397,6 +399,7 @@ export default {
     },
     updateNewMerchantLegalitas() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/legalitas/update", params)
@@ -418,6 +421,7 @@ export default {
     },
     createNewMerchantLegalitas() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/legalitas/create", params)
@@ -440,9 +444,9 @@ export default {
     destroyMerchantLegalitas() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      const merchant_id = this.form.merchant_id;
+      const merchant_id = this.$route.params.id;
       this.axios
-        .post("merchant/legalitas/destroy", { id })
+        .post("merchant/legalitas/destroy", { id,merchant_id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
