@@ -115,13 +115,43 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field
-              v-model="form.jenis_legalitas_id"
-              label="Jenis Legalitas Id *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
-            <v-text-field v-model="form.nomor" label="Nomor *" hint="Contoh : Dipointer"></v-text-field>
-            <v-text-field v-model="form.foto_id" label="Foto Id *" hint="Contoh : Dipointer"></v-text-field>
+            <v-row>
+              <v-col cols="3" class="align-self-center d-flex justify-center">
+                <div v-if="form.foto_id == ''">
+                  <v-btn color="primary" outlined @click="setGaleriModel()">
+                    <v-icon>mdi-image</v-icon>Pilih Foto
+                  </v-btn>
+                  <c-galeri
+                    @id="f => { return this.form.foto_id = f.id,  this.form.file_nama = f.file_nama}"
+                  ></c-galeri>
+                </div>
+                <div v-else>
+                  <img
+                    :src="form.file_nama"
+                    aspect-ratio="1"
+                    width="40"
+                    style="cursor:pointer"
+                    @click="form.foto_id = ''"
+                  />
+                </div>
+              </v-col>
+              <v-col cols="9">
+                <v-combobox
+                  v-model="form.jenis_legalitas_id"
+                  :items="select.legalitas"
+                  label="Nama Legalitas *"
+                  item-value="id"
+                  item-text="nama_jenis"
+                  :return-object="false"
+                  clearable
+                >
+                  <template v-slot:selection="data">{{filterDataLegalitas(data.item)}}</template>
+                </v-combobox>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field v-model="form.nomor" label="Nomor *" hint="Contoh : Dipointer"></v-text-field>
+              </v-col>
+            </v-row>
           </v-card-text>
           <small>*Isian yang harus di isi</small>
         </v-container>
@@ -188,6 +218,7 @@ export default {
         jenis_legalitas_id: "",
         nomor: "",
         foto_id: "",
+        file_nama: "",
         isEdit: false
       },
       table: {
@@ -230,6 +261,9 @@ export default {
       },
       loading: {
         table: false
+      },
+      select: {
+        legalitas: ""
       }
     };
   },
@@ -252,6 +286,9 @@ export default {
     icon_form() {
       return store.getters.getFormIcon;
     }
+  },
+  mounted() {
+    this.fetchLegalitas();
   },
   methods: {
     fetchMerchantLegalitas() {
@@ -276,6 +313,19 @@ export default {
         .catch(error => {
           this.alert.model = true;
           this.alert.text = "Terjadi Kesalahan";
+        })
+        .finally(() => {
+          this.loading.table = false;
+        });
+    },
+    fetchLegalitas() {
+      axios
+        .get("get/legalitas")
+        .then(response => {
+          this.select.legalitas = response.data.legalitas;
+        })
+        .catch(error => {
+          console.log(error);
         })
         .finally(() => {
           this.loading.table = false;
@@ -411,6 +461,17 @@ export default {
     },
     blank(item) {
       window.open(item, "_blank");
+    },
+    filterDataLegalitas(item) {
+      const legalitas = this.select.legalitas;
+      if (legalitas.length > 0) {
+        return legalitas.find(f => {
+          return f.id === item;
+        }).nama_jenis;
+      }
+    },
+    setGaleriModel() {
+      store.commit("setGaleriModel", true);
     }
   }
 };

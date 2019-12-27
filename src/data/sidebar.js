@@ -122,10 +122,6 @@ const data = () => {
           {
             text: "Legalistas",
             action: "/jenis/legalitas"
-          },
-          {
-            text: "Foto",
-            action: "/jenis/foto"
           }
         ],
         action: false,
