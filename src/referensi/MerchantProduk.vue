@@ -134,37 +134,91 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field
-              v-model="form.nama_produk"
-              label="Nama Produk *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
-            <v-text-field
-              v-model="form.produk_kategori_id"
-              label="Produk Kategori Id *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
-            <v-text-field
-              v-model="form.deskripsi_produk"
-              label="Deskripsi Produk *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
-            <v-text-field
-              v-model="form.kode_produk_barang"
-              label="Kode Produk Barang *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
-            <v-text-field
-              v-model="form.berat_produk"
-              label="Berat Produk *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
-            <v-text-field v-model="form.kondisi" label="Kondisi *" hint="Contoh : Dipointer"></v-text-field>
-            <v-text-field
-              v-model="form.status_produk"
-              label="Status Produk *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="form.kode_produk_barang"
+                  label="Kode Produk Barang *"
+                  hint="Contoh : Dipointer"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="form.nama_produk"
+                  label="Nama Produk *"
+                  hint="Contoh : Dipointer"
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="6">
+                <v-combobox
+                  v-model="form.produk_kategori_id"
+                  :items="select.kategori1"
+                  item-value="id"
+                  label="Kategori *"
+                  :return-object="false"
+                  item-text="nama_produk_kategori"
+                  clearable
+                >
+                  <template v-slot:selection="data">{{filterDataKategori(data.item)}}</template>
+                </v-combobox>
+              </v-col>
+              <v-col cols="6">
+                <v-combobox
+                  v-model="form.produk_subkategori_id1"
+                  :items="select.kategori2 ? select.kategori2 : []"
+                  item-value="id"
+                  label="Subkategori 1 *"
+                  :return-object="false"
+                  item-text="nama"
+                  :loading="loading.kategori2"
+                  :disabled="!form.produk_kategori_id"
+                  clearable
+                >
+                  <template v-slot:selection="data">{{filterDataSubkategori1(data.item)}}</template>
+                </v-combobox>
+              </v-col>
+              <v-col cols="6">
+                <v-combobox
+                  v-model="form.produk_subkategori_id2"
+                  :items="select.kategori3 ? select.kategori3 : []"
+                  item-value="id"
+                  label="Subkategori 2 *"
+                  :return-object="false"
+                  item-text="nama"
+                  :loading="loading.kategori3"
+                  :disabled="!form.produk_subkategori_id1"
+                  clearable
+                >
+                  <template v-slot:selection="data">{{filterDataSubkategori2(data.item)}}</template>
+                </v-combobox>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="form.berat_produk"
+                  label="Berat Produk *"
+                  suffix="g"
+                  hint="Contoh : Dipointer"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-select v-model="form.kondisi" label="Kondisi" :items="select.kondisi"></v-select>
+              </v-col>
+              <v-col cols="6">
+                <v-select
+                  v-model="form.status_produk"
+                  label="Status Produk *"
+                  :items="select.status"
+                ></v-select>
+              </v-col>
+              <v-col cols="12">
+                <v-textarea
+                  v-model="form.deskripsi_produk"
+                  label="Deskripsi Produk *"
+                  hint="Contoh : Dipointer"
+                ></v-textarea>
+              </v-col>
+            </v-row>
           </v-card-text>
           <small>*Isian yang harus di isi</small>
         </v-container>
@@ -436,6 +490,8 @@ export default {
         merchant_id: "",
         nama_produk: "",
         produk_kategori_id: "",
+        produk_subkategori_id1: "",
+        produk_subkategori_id2: "",
         deskripsi_produk: "",
         kode_produk_barang: "",
         berat_produk: "",
@@ -510,21 +566,21 @@ export default {
       select: {
         kondisi: [
           {
-            id: "0",
+            value: "0",
             text: "Baru"
           },
           {
-            id: "1",
+            value: "1",
             text: "Bekas"
           }
         ],
         status: [
           {
-            id: "0",
+            value: "0",
             text: "Aktif"
           },
           {
-            id: "1",
+            value: "1",
             text: "Tidak Aktif"
           }
         ],
@@ -534,7 +590,10 @@ export default {
         profile: {}
       },
       loading: {
-        table: false
+        table: false,
+        kategori1: false,
+        kategori2: false,
+        kategori3: false
       }
     };
   },
@@ -545,7 +604,20 @@ export default {
     search(newValue) {
       this.table.options.page = 1;
       this.fetchMerchantProduk(newValue);
+    },
+    "form.produk_kategori_id"(newValue) {
+      this.form.produk_subkategori_id1 = "";
+      this.form.produk_subkategori_id2 = "";
+      this.fetchProdukKategori2(newValue);
+    },
+    "form.produk_subkategori_id1"(newValue) {
+      console.log(newValue);
+      this.form.produk_subkategori_id2 = "";
+      this.fetchProdukKategori3(newValue);
     }
+  },
+  mounted() {
+    this.fetchProdukKategori();
   },
   computed: {
     search() {
@@ -584,6 +656,60 @@ export default {
         })
         .finally(() => {
           this.loading.table = false;
+        });
+    },
+    fetchProdukKategori() {
+      axios
+        .get("get/produk/kategori")
+        .then(response => {
+          this.select.kategori1 = response.data.kategori;
+        })
+        .catch(error => {
+          this.alert.model = true;
+          this.alert.text = "Terjadi Kesalahan";
+        });
+    },
+    fetchProdukKategori2(produk_kategori_id) {
+      this.form.produk_kategori_id2 = this.form.produk_kategori_id3;
+      this.select.kategori2 = [];
+      this.loading.kategori2 = true;
+      const data = {
+        produk_kategori_id
+      };
+      const params = data;
+      axios
+        .get("get/produk/subkategori1", { params })
+        .then(response => {
+          this.select.kategori2 = response.data.kategori;
+        })
+        .catch(error => {
+          this.alert.model = true;
+          this.alert.text = "Terjadi Kesalahan";
+        })
+        .finally(() => {
+          this.loading.kategori2 = false;
+        });
+    },
+    fetchProdukKategori3(produk_sub1_kategori_id) {
+      console.log("oke");
+      this.form.produk_kategori_id3 = this.form.produk_kategori_id3;
+      this.select.kategori3 = [];
+      this.loading.kategori3 = true;
+      const data = {
+        produk_sub1_kategori_id
+      };
+      const params = data;
+      axios
+        .get("get/produk/subkategori2", { params })
+        .then(response => {
+          this.select.kategori3 = response.data.kategori;
+        })
+        .catch(error => {
+          this.alert.model = true;
+          this.alert.text = "Terjadi Kesalahan";
+        })
+        .finally(() => {
+          this.loading.kategori3 = false;
         });
     },
     addItem() {
@@ -739,6 +865,30 @@ export default {
           this.alert.model = true;
           this.alert.text = "Terjadi Kesalahan";
         });
+    },
+    filterDataKategori(item) {
+      const kategori1 = this.select.kategori1;
+      if (kategori1.length > 0) {
+        return kategori1.find(f => {
+          return f.id === item;
+        }).nama_produk_kategori;
+      }
+    },
+    filterDataSubkategori1(item) {
+      const kategori2 = this.select.kategori2;
+      if (kategori2.length > 0) {
+        return kategori2.find(f => {
+          return f.id === item;
+        }).nama;
+      }
+    },
+    filterDataSubkategori2(item) {
+      const kategori3 = this.select.kategori3;
+      if (kategori3.length > 0) {
+        return kategori3.find(f => {
+          return f.id === item;
+        }).nama;
+      }
     }
   }
 };
