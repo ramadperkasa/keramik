@@ -2,7 +2,7 @@
   <app>
     <v-row>
       <v-col cols="8">
-        <span class="title pl-2">ProdukKategori</span>
+        <span class="title pl-2">Produk Kategori</span>
       </v-col>
       <v-spacer></v-spacer>
       <div class="pr-4 align-self-center">
@@ -51,7 +51,7 @@
 
     <v-dialog v-model="dialog.alert.model" max-width="500">
       <v-card>
-        <v-card-title class="title">Apakah anda yakin ingin hapus data ProdukKategori ini?</v-card-title>
+        <v-card-title class="title">Apakah anda yakin ingin hapus data Produk Kategori ini?</v-card-title>
 
         <v-card-text>
           <v-row>
@@ -60,7 +60,7 @@
             </v-col>
             <v-col cols="11">
               Data yang telah di hapus akan terhapus secara permanen, apakah
-              anda yakin ingin menghapus data ProdukKategori ini?
+              anda yakin ingin menghapus data Produk Kategori ini?
             </v-col>
           </v-row>
         </v-card-text>
@@ -88,7 +88,7 @@
     <v-dialog v-model="dialog.form.model" persistent width="750">
       <v-card>
         <v-card-title primary-title>
-          <v-icon class="pr-2">{{ icon_form }}</v-icon>Input Data ProdukKategori
+          <v-icon class="pr-2">{{ icon_form }}</v-icon>Input Data Produk Kategori
           <v-spacer></v-spacer>
           <v-btn text @click="dialog.form.model = false">
             <v-icon>mdi-close</v-icon>
@@ -234,9 +234,9 @@ export default {
 
       const params = data;
       this.axios
-        .get("produkkategori", { params })
+        .get("produk/kategori", { params })
         .then(response => {
-          this.table.items = response.data.produkkategori;
+          this.table.items = response.data.produk_kategori;
         })
         .catch(error => {
           this.alert.model = true;
@@ -266,7 +266,7 @@ export default {
       this.dialog.form.loading = true;
       const params = this.form;
       this.axios
-        .post("produkkategori/update", params)
+        .post("produk/kategori/update", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -286,7 +286,7 @@ export default {
     createProdukKategori() {
       const params = this.form;
       this.axios
-        .post("produkkategori/create", params)
+        .post("produk/kategori/create", params)
         .then(response => {
           this.table.items = response.data;
           this.dialog.form.model = false;
@@ -307,7 +307,7 @@ export default {
       this.dialog.form.loading = true;
       const params = this.form;
       this.axios
-        .post("produkkategori/update", params)
+        .post("produk/kategori/update", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -328,7 +328,7 @@ export default {
       this.dialog.form.loading = true;
       const params = this.form;
       this.axios
-        .post("produkkategori/create", params)
+        .post("produk/kategori/create", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -349,7 +349,7 @@ export default {
       this.dialog.alert.loading = true;
       const id = this.form.id;
       this.axios
-        .post("produkkategori/destroy", { id })
+        .post("produk/kategori/destroy", { id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;

@@ -33,6 +33,9 @@
         table.items.data.indexOf(item) + table.items.from
         }}
       </template>
+      <template v-slot:item.foto_id="{ item }">
+        <v-img :src="item.logo" alt="bank" contain aspect-ratio="1" width="40" />
+      </template>
       <template v-slot:item.action="{ item }">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
@@ -289,7 +292,8 @@ export default {
       this.dialog.form.model = true;
       this.form.isEdit = true;
       this.form.id = item.id;
-      this.form.foto_id = item.id;
+      this.form.foto_id = item.foto_id;
+      this.form.foto_nama = item.logo;
       this.form.nama_jenis = item.nama_jenis;
       this.form.singkatan = item.singkatan;
     },

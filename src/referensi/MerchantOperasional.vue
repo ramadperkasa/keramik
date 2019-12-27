@@ -114,7 +114,7 @@
               :return-object="false"
               clearable
             >
-              <template v-slot:selection="data">{{filterDataBank(data.item)}}</template>
+              <template v-slot:selection="data">{{filterDataHari(data.item)}}</template>
             </v-combobox>
             <v-text-field v-model="form.jam_buka" label="Jam Buka *" hint="Contoh : Dipointer"></v-text-field>
             <v-text-field v-model="form.jam_tutup" label="Jam Tutup *" hint="Contoh : Dipointer"></v-text-field>
@@ -265,7 +265,8 @@ export default {
             ? "hari_id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
-        search: this.search
+        search: this.search,
+        merchant_id: this.$route.params.id
       };
 
       const params = data;
@@ -318,6 +319,7 @@ export default {
     },
     updateMerchantOperasional() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/operasional/update", params)
@@ -338,6 +340,7 @@ export default {
         });
     },
     createMerchantOperasional() {
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/operasional/create", params)
@@ -359,6 +362,7 @@ export default {
     },
     updateNewMerchantOperasional() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/operasional/update", params)
@@ -380,6 +384,7 @@ export default {
     },
     createNewMerchantOperasional() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/operasional/create", params)
@@ -402,9 +407,9 @@ export default {
     destroyMerchantOperasional() {
       this.dialog.alert.loading = true;
       const hari_id = this.form.hari_id;
-      const merchant_id = this.form.merchant_id;
+      const merchant_id = this.$route.params.id;
       this.axios
-        .post("merchant/operasional/destroy", { id })
+        .post("merchant/operasional/destroy", { id, merchant_id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -426,7 +431,7 @@ export default {
       if (hari.length > 0) {
         return hari.find(f => {
           return f.id === item;
-        }).hari_nama;
+        }).nama_hari;
       }
     }
   }
