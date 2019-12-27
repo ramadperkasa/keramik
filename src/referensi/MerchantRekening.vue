@@ -283,7 +283,8 @@ export default {
             ? "id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
-        search: this.search
+        search: this.search,
+        merchant_id: this.$route.params.id
       };
 
       const params = data;
@@ -340,6 +341,7 @@ export default {
     },
     updateMerchantRekening() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/rekening/update", params)
@@ -360,6 +362,7 @@ export default {
         });
     },
     createMerchantRekening() {
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/rekening/create", params)
@@ -381,6 +384,7 @@ export default {
     },
     updateNewMerchantRekening() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/rekening/update", params)
@@ -402,6 +406,7 @@ export default {
     },
     createNewMerchantRekening() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
         .post("merchant/rekening/create", params)
@@ -424,7 +429,7 @@ export default {
     destroyMerchantRekening() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      const merchant_id = this.form.merchant_id;
+      const merchant_id = this.$route.params.id;
       this.axios
         .post("merchant/rekening/destroy", { id })
         .then(response => {

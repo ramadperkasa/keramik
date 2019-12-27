@@ -16,7 +16,7 @@ Vue.component("c-galeri", Galeri);
 import axios from "axios";
 import VueAxios from "vue-axios";
 
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 
 Vue.config.productionTip = false;

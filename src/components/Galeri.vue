@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     fetchFolder() {
-      axios
+      this.axios
         .get("folder")
         .then(response => {
           this.select.folder = response.data.folder;
@@ -93,7 +93,7 @@ export default {
     },
     fetchImage(id) {
       this.items = [];
-      axios
+      this.axios
         .get("foto-system/folder", { params: { id } })
         .then(response => {
           this.items = response.data.foto;

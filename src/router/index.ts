@@ -60,7 +60,7 @@ const routes = [
     name: "login",
     component: Login,
     meta: {
-      title: process.env.VUE_APP_NAME + 'Login'
+      title: process.env.VUE_APP_NAME + "Login"
     }
   },
   {
@@ -316,16 +316,12 @@ const router = new VueRouter({
   routes
 });
 
-
 router.beforeEach((to, from, next) => {
   const nearestWithTitle = to.matched.slice().reverse().find(r => r.meta && r.meta.title);
-
-
   // If a route with a title was found, set the document (page) title to that value.
   if (nearestWithTitle) document.title = nearestWithTitle.meta.title;
 
   next();
-})
-
+});
 
 export default router;

@@ -2,19 +2,13 @@
   <app>
     <v-row>
       <v-col cols="8">
-        <span class="title pl-2">ProdukSub1Kategori</span>
+        <span class="title pl-2">Sub Kategori 1</span>
       </v-col>
       <v-spacer></v-spacer>
       <div class="pr-4 align-self-center">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              text
-              color="primary"
-              class="mr-3"
-              @click="addItem()"
-            >
+            <v-btn v-on="on" text color="primary" class="mr-3" @click="addItem()">
               <v-icon>mdi-plus</v-icon>Baru
             </v-btn>
           </template>
@@ -34,23 +28,21 @@
         itemsPerPageOptions: pagination
       }"
     >
-      <template v-slot:item.no="{ item }">{{
+      <template v-slot:item.no="{ item }">
+        {{
         table.items.data.indexOf(item) + table.items.from
-      }}</template>
+        }}
+      </template>
       <template v-slot:item.action="{ item }">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small class="mr-2" @click="editItem(item)"
-              >mdi-pencil</v-icon
-            >
+            <v-icon v-on="on" small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
           </template>
           <span color="primary">Edit</span>
         </v-tooltip>
         <v-tooltip right>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small @click="destroyItem(item)"
-              >mdi-delete</v-icon
-            >
+            <v-icon v-on="on" small @click="destroyItem(item)">mdi-delete</v-icon>
           </template>
           <span>Hapus</span>
         </v-tooltip>
@@ -59,20 +51,20 @@
 
     <v-dialog v-model="dialog.alert.model" max-width="500">
       <v-card>
-        <v-card-title class="title"
-          >Apakah anda yakin ingin hapus data ProdukSub1Kategori
-          ini?</v-card-title
-        >
+        <v-card-title class="title">
+          Apakah anda yakin ingin hapus data Sub Kategori 1
+          ini?
+        </v-card-title>
 
         <v-card-text>
           <v-row>
             <v-col cols="1" class="align-self-center pl-1">
               <v-icon large class>mdi-alert-circle</v-icon>
             </v-col>
-            <v-col cols="11"
-              >Data yang telah di hapus akan terhapus secara permanen, apakah
-              anda yakin ingin menghapus data ProdukSub1Kategori ini?</v-col
-            >
+            <v-col cols="11">
+              Data yang telah di hapus akan terhapus secara permanen, apakah
+              anda yakin ingin menghapus data Sub Kategori 1 ini?
+            </v-col>
           </v-row>
         </v-card-text>
         <v-divider></v-divider>
@@ -84,16 +76,14 @@
             :disabled="dialog.alert.loading"
             text
             @click="dialog.alert.model = false"
-            >Batal</v-btn
-          >
+          >Batal</v-btn>
           <v-btn
             color="primary"
             :loading="dialog.alert.loading"
             :disabled="dialog.alert.loading"
             text
             @click="destroyProdukSub1Kategori()"
-            >Hapus</v-btn
-          >
+          >Hapus</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -101,8 +91,7 @@
     <v-dialog v-model="dialog.form.model" persistent width="750">
       <v-card>
         <v-card-title primary-title>
-          <v-icon class="pr-2">{{ icon_form }}</v-icon
-          >Input Data ProdukSub1Kategori
+          <v-icon class="pr-2">{{ icon_form }}</v-icon>Input Data Sub Kategori 1
           <v-spacer></v-spacer>
           <v-btn text @click="dialog.form.model = false">
             <v-icon>mdi-close</v-icon>
@@ -111,16 +100,18 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field
+            <v-combobox
               v-model="form.produk_kategori_id"
-              label="Produk Kategori Id *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
-            <v-text-field
-              v-model="form.nama"
-              label="Nama *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
+              :items="select.kategori1"
+              item-value="id"
+              label="Kategori *"
+              :return-object="false"
+              item-text="nama_produk_kategori"
+              clearable
+            >
+              <template v-slot:selection="data">{{filterDataKategori(data.item)}}</template>
+            </v-combobox>
+            <v-text-field v-model="form.nama" label="Nama *" hint="Contoh : Dipointer"></v-text-field>
           </v-card-text>
           <small>*Isian yang harus di isi</small>
         </v-container>
@@ -198,7 +189,7 @@ export default {
             value: "no"
           },
           {
-            text: "Produk Kategori Id",
+            text: "Produk Kategori",
             value: "produk_kategori_id",
             align: "left"
           },
@@ -220,8 +211,12 @@ export default {
         model: false,
         text: ""
       },
+      select: {
+        kategori1: []
+      },
       loading: {
-        table: false
+        table: false,
+        kategori1: false
       }
     };
   },
@@ -245,6 +240,9 @@ export default {
       return store.getters.getFormIcon;
     }
   },
+  mounted() {
+    this.fetchProdukKategori();
+  },
   methods: {
     fetchProdukSub1Kategori() {
       this.loading.table = true;
@@ -261,9 +259,9 @@ export default {
 
       const params = data;
       this.axios
-        .get("produksub1kategori", { params })
+        .get("produk/subkategori1", { params })
         .then(response => {
-          this.table.items = response.data.produksub1kategori;
+          this.table.items = response.data.produk_subkategori1;
         })
         .catch(error => {
           this.alert.model = true;
@@ -271,6 +269,17 @@ export default {
         })
         .finally(() => {
           this.loading.table = false;
+        });
+    },
+    fetchProdukKategori() {
+      this.axios
+        .get("get/produk/kategori")
+        .then(response => {
+          this.select.kategori1 = response.data.kategori;
+        })
+        .catch(error => {
+          this.alert.model = true;
+          this.alert.text = "Terjadi Kesalahan";
         });
     },
     addItem() {
@@ -295,7 +304,7 @@ export default {
       this.dialog.form.loading = true;
       const params = this.form;
       this.axios
-        .post("produksub1kategori/update", params)
+        .post("produk/subkategori1/update", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -315,7 +324,7 @@ export default {
     createProdukSub1Kategori() {
       const params = this.form;
       this.axios
-        .post("produksub1kategori/create", params)
+        .post("produk/subkategori1/create", params)
         .then(response => {
           this.table.items = response.data;
           this.dialog.form.model = false;
@@ -336,7 +345,7 @@ export default {
       this.dialog.form.loading = true;
       const params = this.form;
       this.axios
-        .post("produksub1kategori/update", params)
+        .post("produk/subkategori1/update", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -357,7 +366,7 @@ export default {
       this.dialog.form.loading = true;
       const params = this.form;
       this.axios
-        .post("produksub1kategori/create", params)
+        .post("produk/subkategori1/create", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -378,7 +387,7 @@ export default {
       this.dialog.alert.loading = true;
       const id = this.form.id;
       this.axios
-        .post("produksub1kategori/destroy", { id })
+        .post("produk/subkategori1/destroy", { id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -394,6 +403,14 @@ export default {
           this.dialog.alert.loading = false;
           this.dialog.alert.model = false;
         });
+    },
+    filterDataKategori(item) {
+      const kategori1 = this.select.kategori1;
+      if (kategori1.length > 0) {
+        return kategori1.find(f => {
+          return f.id === item;
+        }).nama_produk_kategori;
+      }
     }
   }
 };
