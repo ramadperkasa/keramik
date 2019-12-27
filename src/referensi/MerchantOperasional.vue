@@ -269,7 +269,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("merchant/operasional", { params })
         .then(response => {
           this.table.items = response.data.data;
@@ -283,7 +283,7 @@ export default {
         });
     },
     fetchHari() {
-      axios
+      this.axios
         .get("get/hari")
         .then(response => {
           this.select.hari = response.data.hari;
@@ -319,7 +319,7 @@ export default {
     updateMerchantOperasional() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/operasional/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -339,7 +339,7 @@ export default {
     },
     createMerchantOperasional() {
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/operasional/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -360,7 +360,7 @@ export default {
     updateNewMerchantOperasional() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/operasional/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -381,7 +381,7 @@ export default {
     createNewMerchantOperasional() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/operasional/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -403,7 +403,7 @@ export default {
       this.dialog.alert.loading = true;
       const hari_id = this.form.hari_id;
       const merchant_id = this.form.merchant_id;
-      axios
+      this.axios
         .post("merchant/operasional/destroy", { id })
         .then(response => {
           this.table.items = response.data;

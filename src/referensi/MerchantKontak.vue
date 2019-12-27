@@ -258,7 +258,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("merchant/kontak", { params })
         .then(response => {
           this.table.items = response.data.data;
@@ -272,7 +272,7 @@ export default {
         });
     },
     fetchKontak() {
-      axios
+      this.axios
         .get("get/kontak")
         .then(response => {
           this.select.kontak = response.data.kontak;
@@ -309,7 +309,7 @@ export default {
     updateMerchantKontak() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/kontak/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -329,7 +329,7 @@ export default {
     },
     createMerchantKontak() {
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/kontak/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -350,7 +350,7 @@ export default {
     updateNewMerchantKontak() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/kontak/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -371,7 +371,7 @@ export default {
     createNewMerchantKontak() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/kontak/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -394,7 +394,7 @@ export default {
       const id = this.form.id;
       const merchant_id = this.form.merchant_id;
       const jenis_kontak_id = this.form.jenis_kontak_id;
-      axios
+      this.axios
         .post("merchant/kontak/destroy", { id })
         .then(response => {
           this.table.items = response.data;

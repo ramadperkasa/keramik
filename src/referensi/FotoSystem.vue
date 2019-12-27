@@ -272,7 +272,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("foto-system", { params })
         .then(response => {
           this.table.items = response.data.foto;
@@ -286,7 +286,7 @@ export default {
         });
     },
     fetchFolder() {
-      axios
+      this.axios
         .get("folder")
         .then(response => {
           this.select.folder = response.data.folder;
@@ -327,7 +327,7 @@ export default {
     },
     createFoto() {
       const params = this.form;
-      axios
+      this.axios
         .post("foto-system/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -348,7 +348,7 @@ export default {
     createNewFoto() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("foto-system/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -369,7 +369,7 @@ export default {
     destroyFoto() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("foto-system/destroy", { id })
         .then(response => {
           this.table.items = response.data;

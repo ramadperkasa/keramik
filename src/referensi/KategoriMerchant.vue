@@ -281,7 +281,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("merchant/kategori", { params })
         .then(response => {
           this.table.items = response.data.kategori_merchant;
@@ -295,7 +295,7 @@ export default {
         });
     },
     fetchFolder() {
-      axios
+      this.axios
         .get("folder")
         .then(response => {
           this.select.folder = response.data.folder;
@@ -328,7 +328,7 @@ export default {
     updateKategoriMerchant() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/kategori/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -348,7 +348,7 @@ export default {
     },
     createKategoriMerchant() {
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/kategori/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -369,7 +369,7 @@ export default {
     updateNewKategoriMerchant() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/kategori/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -390,7 +390,7 @@ export default {
     createNewKategoriMerchant() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/kategori/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -411,7 +411,7 @@ export default {
     destroyKategoriMerchant() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("merchant/kategori/destroy", { id })
         .then(response => {
           this.table.items = response.data;

@@ -264,7 +264,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("jenis/medsos", { params })
         .then(response => {
           this.table.items = response.data.jenis_kotak;
@@ -300,7 +300,7 @@ export default {
     updateJenisMedsos() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("jenis/medsos/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -320,7 +320,7 @@ export default {
     },
     createJenisMedsos() {
       const params = this.form;
-      axios
+      this.axios
         .post("jenis/medsos/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -341,7 +341,7 @@ export default {
     updateNewJenisMedsos() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("jenis/medsos/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -362,7 +362,7 @@ export default {
     createNewJenisMedsos() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("jenis/medsos/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -383,7 +383,7 @@ export default {
     destroyJenisMedsos() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("jenis/medsos/destroy", { id })
         .then(response => {
           this.table.items = response.data;

@@ -247,7 +247,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("mitramedsos", { params })
         .then(response => {
           this.table.items = response.data.mitramedsos;
@@ -284,7 +284,7 @@ export default {
     updateMitraMedsos() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("mitramedsos/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -304,7 +304,7 @@ export default {
     },
     createMitraMedsos() {
       const params = this.form;
-      axios
+      this.axios
         .post("mitramedsos/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -325,7 +325,7 @@ export default {
     updateNewMitraMedsos() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("mitramedsos/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -346,7 +346,7 @@ export default {
     createNewMitraMedsos() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("mitramedsos/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -368,7 +368,7 @@ export default {
       this.dialog.alert.loading = true;
       const id = this.form.id;
       const mitra_id = this.form.mitra_id;
-      axios
+      this.axios
         .post("mitramedsos/destroy", { id })
         .then(response => {
           this.table.items = response.data;

@@ -287,7 +287,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("merchant/rekening", { params })
         .then(response => {
           this.table.items = response.data.data;
@@ -301,7 +301,7 @@ export default {
         });
     },
     fetchBank() {
-      axios
+      this.axios
         .get("get/bank")
         .then(response => {
           this.select.bank = response.data.bank;
@@ -341,7 +341,7 @@ export default {
     updateMerchantRekening() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/rekening/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -361,7 +361,7 @@ export default {
     },
     createMerchantRekening() {
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/rekening/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -382,7 +382,7 @@ export default {
     updateNewMerchantRekening() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/rekening/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -403,7 +403,7 @@ export default {
     createNewMerchantRekening() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/rekening/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -425,7 +425,7 @@ export default {
       this.dialog.alert.loading = true;
       const id = this.form.id;
       const merchant_id = this.form.merchant_id;
-      axios
+      this.axios
         .post("merchant/rekening/destroy", { id })
         .then(response => {
           this.table.items = response.data;

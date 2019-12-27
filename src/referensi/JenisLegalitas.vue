@@ -229,7 +229,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("jenis/legalitas", { params })
         .then(response => {
           this.table.items = response.data.jenislegalitas;
@@ -261,7 +261,7 @@ export default {
     updateJenisLegalitas() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("jenis/legalitas/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -281,7 +281,7 @@ export default {
     },
     createJenisLegalitas() {
       const params = this.form;
-      axios
+      this.axios
         .post("jenis/legalitas/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -302,7 +302,7 @@ export default {
     updateNewJenisLegalitas() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("jenis/legalitas/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -323,7 +323,7 @@ export default {
     createNewJenisLegalitas() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("jenis/legalitas/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -344,7 +344,7 @@ export default {
     destroyJenisLegalitas() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("jenis/legalitas/destroy", { id })
         .then(response => {
           this.table.items = response.data;

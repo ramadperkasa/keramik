@@ -236,7 +236,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("metode/pengiriman", { params })
         .then(response => {
           this.table.items = response.data.metode_pengiriman;
@@ -268,7 +268,7 @@ export default {
     updateMetodePengiriman() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("metode/pengiriman/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -288,7 +288,7 @@ export default {
     },
     createMetodePengiriman() {
       const params = this.form;
-      axios
+      this.axios
         .post("metode/pengiriman/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -309,7 +309,7 @@ export default {
     updateNewMetodePengiriman() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("metode/pengiriman/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -330,7 +330,7 @@ export default {
     createNewMetodePengiriman() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("metode/pengiriman/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -351,7 +351,7 @@ export default {
     destroyMetodePengiriman() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("metode/pengiriman/destroy", { id })
         .then(response => {
           this.table.items = response.data;

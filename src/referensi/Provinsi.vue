@@ -239,7 +239,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.this.axios
         .get("provinsi", { params })
         .then(response => {
           this.table.items = response.data.provinsi;
@@ -271,7 +271,7 @@ export default {
     updateProvinsi() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.this.axios
         .post("provinsi/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -291,7 +291,7 @@ export default {
     },
     createProvinsi() {
       const params = this.form;
-      axios
+      this.this.axios
         .post("provinsi/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -312,7 +312,7 @@ export default {
     updateNewProvinsi() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.this.axios
         .post("provinsi/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -333,7 +333,7 @@ export default {
     createNewProvinsi() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.this.axios
         .post("provinsi/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -354,7 +354,7 @@ export default {
     destroyProvinsi() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.this.axios
         .post("provinsi/destroy", { id })
         .then(response => {
           this.table.items = response.data;

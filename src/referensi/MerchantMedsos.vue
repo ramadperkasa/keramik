@@ -250,7 +250,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("merchant/medsos", { params })
         .then(response => {
           this.table.items = response.data.data;
@@ -287,7 +287,7 @@ export default {
     updateMerchantMedsos() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/medsos/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -307,7 +307,7 @@ export default {
     },
     createMerchantMedsos() {
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/medsos/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -328,7 +328,7 @@ export default {
     updateNewMerchantMedsos() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/medsos/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -349,7 +349,7 @@ export default {
     createNewMerchantMedsos() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/medsos/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -371,7 +371,7 @@ export default {
       this.dialog.alert.loading = true;
       const id = this.form.id;
       const merchant_id = this.form.merchant_id;
-      axios
+      this.axios
         .post("merchant/medsos/destroy", { id })
         .then(response => {
           this.table.items = response.data;

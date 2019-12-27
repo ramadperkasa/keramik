@@ -223,7 +223,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("agama", { params })
         .then(response => {
           this.table.items = response.data.agama;
@@ -255,7 +255,7 @@ export default {
     updateAgama() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("agama/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -275,7 +275,7 @@ export default {
     },
     createAgama() {
       const params = this.form;
-      axios
+      this.axios
         .post("agama/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -296,7 +296,7 @@ export default {
     updateNewAgama() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("agama/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -317,7 +317,7 @@ export default {
     createNewAgama() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("agama/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -338,7 +338,7 @@ export default {
     destroyAgama() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("agama/destroy", { id })
         .then(response => {
           this.table.items = response.data;

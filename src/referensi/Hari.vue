@@ -194,7 +194,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("hari", { params })
         .then(response => {
           this.table.items = response.data.hari;
@@ -226,7 +226,7 @@ export default {
     updateHari() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("hari/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -246,7 +246,7 @@ export default {
     },
     createHari() {
       const params = this.form;
-      axios
+      this.axios
         .post("hari/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -267,7 +267,7 @@ export default {
     updateNewHari() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("hari/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -288,7 +288,7 @@ export default {
     createNewHari() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("hari/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -309,7 +309,7 @@ export default {
     destroyHari() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("hari/destroy", { id })
         .then(response => {
           this.table.items = response.data;

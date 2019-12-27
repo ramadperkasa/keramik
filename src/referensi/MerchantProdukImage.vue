@@ -259,7 +259,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("merchantprodukimage", { params })
         .then(response => {
           this.table.items = response.data.merchantprodukimage;
@@ -297,7 +297,7 @@ export default {
     updateMerchantProdukImage() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchantprodukimage/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -317,7 +317,7 @@ export default {
     },
     createMerchantProdukImage() {
       const params = this.form;
-      axios
+      this.axios
         .post("merchantprodukimage/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -338,7 +338,7 @@ export default {
     updateNewMerchantProdukImage() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchantprodukimage/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -359,7 +359,7 @@ export default {
     createNewMerchantProdukImage() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchantprodukimage/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -380,7 +380,7 @@ export default {
     destroyMerchantProdukImage() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("merchantprodukimage/destroy", { id })
         .then(response => {
           this.table.items = response.data;

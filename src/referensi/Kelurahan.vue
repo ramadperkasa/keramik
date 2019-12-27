@@ -328,7 +328,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("kelurahan", { params })
         .then(response => {
           this.table.items = response.data.kelurahan;
@@ -342,7 +342,7 @@ export default {
         });
     },
     fetchSelectProvinsi() {
-      axios
+      this.axios
         .get("wilayah-administrasi/provinsi")
         .then(response => {
           this.select.provinsi = response.data.provinsi;
@@ -360,7 +360,7 @@ export default {
         provinsi_id
       };
       const params = data;
-      axios
+      this.axios
         .get("wilayah-administrasi/kabupaten", { params })
         .then(response => {
           this.select.kabupaten = response.data.kabupaten;
@@ -381,7 +381,7 @@ export default {
         kabupaten_id
       };
       const params = data;
-      axios
+      this.axios
         .get("wilayah-administrasi/kecamatan", { params })
         .then(response => {
           this.select.kecamatan = response.data.kecamatan;
@@ -421,7 +421,7 @@ export default {
     updateKelurahan() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("kelurahan/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -441,7 +441,7 @@ export default {
     },
     createKelurahan() {
       const params = this.form;
-      axios
+      this.axios
         .post("kelurahan/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -462,7 +462,7 @@ export default {
     updateNewKelurahan() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("kelurahan/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -483,7 +483,7 @@ export default {
     createNewKelurahan() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("kelurahan/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -504,7 +504,7 @@ export default {
     destroyKelurahan() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("kelurahan/destroy", { id })
         .then(response => {
           this.table.items = response.data;

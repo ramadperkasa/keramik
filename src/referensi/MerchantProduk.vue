@@ -311,7 +311,7 @@ export default {
         merchant_id: this.$route.params.id
       };
       const params = data;
-      axios
+      this.axios
         .get("merchant/produk", { params })
         .then(response => {
           this.table.items = response.data.data;
@@ -357,7 +357,7 @@ export default {
     updateMerchantProduk() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/produk/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -377,7 +377,7 @@ export default {
     },
     createMerchantProduk() {
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/produk/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -398,7 +398,7 @@ export default {
     updateNewMerchantProduk() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/produk/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -419,7 +419,7 @@ export default {
     createNewMerchantProduk() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/produk/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -440,7 +440,7 @@ export default {
     destroyMerchantProduk() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("merchant/produk/destroy", { id })
         .then(response => {
           this.table.items = response.data;

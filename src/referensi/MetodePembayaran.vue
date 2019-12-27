@@ -236,7 +236,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("metode/pembayaran", { params })
         .then(response => {
           this.table.items = response.data.metode_pembayaran;
@@ -268,7 +268,7 @@ export default {
     updateMetodePembayaran() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("metode/pembayaran/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -288,7 +288,7 @@ export default {
     },
     createMetodePembayaran() {
       const params = this.form;
-      axios
+      this.axios
         .post("metode/pembayaran/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -309,7 +309,7 @@ export default {
     updateNewMetodePembayaran() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("metode/pembayaran/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -330,7 +330,7 @@ export default {
     createNewMetodePembayaran() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("metode/pembayaran/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -351,7 +351,7 @@ export default {
     destroyMetodePembayaran() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("metode/pembayaran/destroy", { id })
         .then(response => {
           this.table.items = response.data;

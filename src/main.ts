@@ -13,8 +13,11 @@ Vue.component("app", Main);
 import Galeri from "./components/Galeri.vue";
 Vue.component("c-galeri", Galeri);
 
-window.axios = require("axios");
-window.axios.defaults.baseURL = "http://dev.dipointer.com:8007/api-backend/";
+import axios from "axios";
+import VueAxios from "vue-axios";
+
+Vue.use(VueAxios, axios)
+Vue.axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
 
 Vue.config.productionTip = false;
 

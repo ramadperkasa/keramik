@@ -296,7 +296,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("konsumen", { params })
         .then(response => {
           this.table.items = response.data.konsumen;
@@ -354,7 +354,7 @@ export default {
     updateKonsumen() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("konsumen/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -374,7 +374,7 @@ export default {
     },
     createKonsumen() {
       const params = this.form;
-      axios
+      this.axios
         .post("konsumen/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -395,7 +395,7 @@ export default {
     updateNewKonsumen() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("konsumen/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -416,7 +416,7 @@ export default {
     createNewKonsumen() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("konsumen/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -437,7 +437,7 @@ export default {
     destroyKonsumen() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("konsumen/destroy", { id })
         .then(response => {
           this.table.items = response.data;

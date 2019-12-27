@@ -292,7 +292,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("merchantprodukvariant", { params })
         .then(response => {
           this.table.items = response.data.merchantprodukvariant;
@@ -331,7 +331,7 @@ export default {
     updateMerchantProdukVariant() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchantprodukvariant/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -351,7 +351,7 @@ export default {
     },
     createMerchantProdukVariant() {
       const params = this.form;
-      axios
+      this.axios
         .post("merchantprodukvariant/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -372,7 +372,7 @@ export default {
     updateNewMerchantProdukVariant() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchantprodukvariant/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -393,7 +393,7 @@ export default {
     createNewMerchantProdukVariant() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchantprodukvariant/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -415,7 +415,7 @@ export default {
       this.dialog.alert.loading = true;
       const merchant_produk_id = this.form.merchant_produk_id;
       const variant_id = this.form.variant_id;
-      axios
+      this.axios
         .post("merchantprodukvariant/destroy", {id})
         .then(response => {
           this.table.items = response.data;

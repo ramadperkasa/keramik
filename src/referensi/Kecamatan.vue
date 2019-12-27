@@ -296,7 +296,7 @@ export default {
         search: this.search
       };
       const params = data;
-      axios
+      this.axios
         .get("kecamatan", { params })
         .then(response => {
           this.table.items = response.data.kecamatan;
@@ -310,7 +310,7 @@ export default {
         });
     },
     fetchSelectProvinsi() {
-      axios
+      this.axios
         .get("wilayah-administrasi/provinsi")
         .then(response => {
           this.select.provinsi = response.data.provinsi;
@@ -328,7 +328,7 @@ export default {
         provinsi_id
       };
       const params = data;
-      axios
+      this.axios
         .get("wilayah-administrasi/kabupaten", { params })
         .then(response => {
           this.select.kabupaten = response.data.kabupaten;
@@ -366,7 +366,7 @@ export default {
     updateKecamatan() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("kecamatan/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -388,7 +388,7 @@ export default {
       this.dialog.form.loading = true;
       this.form.id = this.form.kabupaten_id + this.form.id;
       const params = this.form;
-      axios
+      this.axios
         .post("kecamatan/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -409,7 +409,7 @@ export default {
     updateNewKecamatan() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("kecamatan/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -431,7 +431,7 @@ export default {
       this.dialog.form.loading = true;
       this.form.id = this.form.kabupaten_id + this.form.id;
       const params = this.form;
-      axios
+      this.axios
         .post("kecamatan/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -452,7 +452,7 @@ export default {
     destroyKecamatan() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("kecamatan/destroy", { id })
         .then(response => {
           this.table.items = response.data;

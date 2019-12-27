@@ -731,7 +731,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("merchant", { params })
         .then(response => {
           this.table.items = response.data.merchant;
@@ -745,7 +745,7 @@ export default {
         });
     },
     fetchSelectProvinsi() {
-      axios
+      this.axios
         .get("wilayah-administrasi/provinsi")
         .then(response => {
           this.select.provinsi = response.data.provinsi;
@@ -763,7 +763,7 @@ export default {
         provinsi_id
       };
       const params = data;
-      axios
+      this.axios
         .get("wilayah-administrasi/kabupaten", { params })
         .then(response => {
           this.select.kabupaten = response.data.kabupaten;
@@ -784,7 +784,7 @@ export default {
         kabupaten_id
       };
       const params = data;
-      axios
+      this.axios
         .get("wilayah-administrasi/kecamatan", { params })
         .then(response => {
           this.select.kecamatan = response.data.kecamatan;
@@ -805,7 +805,7 @@ export default {
         kecamatan_id
       };
       const params = data;
-      axios
+      this.axios
         .get("wilayah-administrasi/kelurahan", { params })
         .then(response => {
           this.select.kelurahan = response.data.kelurahan;
@@ -872,7 +872,7 @@ export default {
     updateMerchant() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -892,7 +892,7 @@ export default {
     },
     createMerchant() {
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -913,7 +913,7 @@ export default {
     updateNewMerchant() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -934,7 +934,7 @@ export default {
     createNewMerchant() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("merchant/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -955,7 +955,7 @@ export default {
     destroyMerchant() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("merchant/destroy", { id })
         .then(response => {
           this.table.items = response.data;
@@ -1004,7 +1004,7 @@ export default {
     },
     dialogProfile(item) {
       this.select.profile = [];
-      axios
+      this.axios
         .get("merchant/detail", {
           params: {
             id: item

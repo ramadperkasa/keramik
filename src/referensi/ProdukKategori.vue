@@ -233,7 +233,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("produkkategori", { params })
         .then(response => {
           this.table.items = response.data.produkkategori;
@@ -265,7 +265,7 @@ export default {
     updateProdukKategori() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("produkkategori/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -285,7 +285,7 @@ export default {
     },
     createProdukKategori() {
       const params = this.form;
-      axios
+      this.axios
         .post("produkkategori/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -306,7 +306,7 @@ export default {
     updateNewProdukKategori() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("produkkategori/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -327,7 +327,7 @@ export default {
     createNewProdukKategori() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("produkkategori/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -348,7 +348,7 @@ export default {
     destroyProdukKategori() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("produkkategori/destroy", { id })
         .then(response => {
           this.table.items = response.data;

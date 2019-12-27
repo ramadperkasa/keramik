@@ -270,7 +270,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("kabupaten", { params })
         .then(response => {
           this.table.items = response.data.kabupaten;
@@ -284,7 +284,7 @@ export default {
         });
     },
     fetchSelectProvinsi() {
-      axios
+      this.axios
         .get("wilayah-administrasi/provinsi")
         .then(response => {
           this.select.provinsi = response.data.provinsi;
@@ -315,7 +315,7 @@ export default {
     updateKabupaten() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("kabupaten/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -337,7 +337,7 @@ export default {
       this.dialog.form.loading = true;
       this.form.id = this.form.provinsi_id + this.form.id;
       const params = this.form;
-      axios
+      this.axios
         .post("kabupaten/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -358,7 +358,7 @@ export default {
     updateNewKabupaten() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("kabupaten/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -380,7 +380,7 @@ export default {
       this.dialog.form.loading = true;
       this.form.id = this.form.provinsi_id + this.form.id;
       const params = this.form;
-      axios
+      this.axios
         .post("kabupaten/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -401,7 +401,7 @@ export default {
     destroyKabupaten() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("kabupaten/destroy", { id })
         .then(response => {
           this.table.items = response.data;

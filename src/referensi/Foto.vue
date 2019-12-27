@@ -237,7 +237,7 @@ export default {
       };
 
       const params = data;
-      axios
+      this.axios
         .get("foto", { params })
         .then(response => {
           this.table.items = response.data.foto;
@@ -273,7 +273,7 @@ export default {
     updateFoto() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("foto/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -293,7 +293,7 @@ export default {
     },
     createFoto() {
       const params = this.form;
-      axios
+      this.axios
         .post("foto/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -314,7 +314,7 @@ export default {
     updateNewFoto() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("foto/update", params)
         .then(response => {
           this.table.items = response.data;
@@ -335,7 +335,7 @@ export default {
     createNewFoto() {
       this.dialog.form.loading = true;
       const params = this.form;
-      axios
+      this.axios
         .post("foto/create", params)
         .then(response => {
           this.table.items = response.data;
@@ -356,7 +356,7 @@ export default {
     destroyFoto() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      axios
+      this.axios
         .post("foto/destroy", { id })
         .then(response => {
           this.table.items = response.data;
