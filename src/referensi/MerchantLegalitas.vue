@@ -446,7 +446,10 @@ export default {
       const id = this.form.id;
       const merchant_id = this.$route.params.id;
       this.axios
-        .post("merchant/legalitas/destroy", { id,merchant_id })
+        .post("merchant/legalitas/destroy", {
+          id,
+          merchant_id
+        })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
