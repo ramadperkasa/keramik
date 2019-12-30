@@ -36,15 +36,13 @@
       <template v-slot:item.action="{ item }">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-icon
+              v-on="on"
+              class="mr-2"
+              @click="dialog.menu.model = true;dialog.menu.id = item.id"
+            >mdi-dots-vertical</v-icon>
           </template>
-          <span color="primary">Edit</span>
-        </v-tooltip>
-        <v-tooltip right>
-          <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small @click="destroyItem(item)">mdi-delete</v-icon>
-          </template>
-          <span>Hapus</span>
+          <span color="primary">Lainnya</span>
         </v-tooltip>
       </template>
     </v-data-table>
@@ -283,7 +281,7 @@ export default {
       this.axios
         .get("produk/subkategori2", { params })
         .then(response => {
-          this.table.items = response.data.produksub2kategori;
+          this.table.items = response.data.produk_kategori;
         })
         .catch(error => {
           this.alert.model = true;

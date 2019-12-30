@@ -131,7 +131,7 @@
                 <v-text-field
                   v-model="form.nama_merchant"
                   label="Nama Merchant *"
-                  hint="Contoh : Dipointer"
+                  hint="Contoh : Warung Lorem Ipsum"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -142,26 +142,13 @@
                 ></v-select>
               </v-col>
               <v-col cols="6">
-                <v-file-input
-                  label="Logo Merchant *"
-                  hint="Contoh : Dipointer"
-                  @change="onLogoChange"
-                  type="file"
-                ></v-file-input>
+                <v-file-input label="Logo Merchant *" @change="createLogo" type="file"></v-file-input>
               </v-col>
               <v-col cols="6">
-                <v-file-input
-                  label="Cover Merchant *"
-                  hint="Contoh : Dipointer"
-                  @change="onCoverChange"
-                ></v-file-input>
+                <v-file-input label="Cover Merchant *" @change="createCover"></v-file-input>
               </v-col>
               <v-col cols="12">
-                <v-textarea
-                  v-model="form.deskripsi_merchant"
-                  label="Deskripsi Merchant *"
-                  hint="Contoh : Dipointer"
-                ></v-textarea>
+                <v-textarea v-model="form.deskripsi_merchant" label="Deskripsi Merchant *"></v-textarea>
               </v-col>
             </v-row>
 
@@ -284,13 +271,13 @@
           <v-card flat class="mb-4">
             <v-text-field
               v-model="form.email_contact"
-              label="Email Contact *"
-              hint="Contoh : Dipointer"
+              label="Email Kontak *"
+              hint="Email yang digunakan untuk "
             ></v-text-field>
             <v-text-field
               v-model="form.email_notifikasi"
               label="Email Notifikasi *"
-              hint="Contoh : Dipointer"
+              hint="Email yang digunakan untuk "
             ></v-text-field>
             <v-text-field v-model="form.website" label="Website *" hint="Contoh : Dipointer"></v-text-field>
             <v-select v-model="form.status" :items="select.status" label="Status *"></v-select>
@@ -509,6 +496,14 @@
             <v-icon size="32px" tile>mdi-trash-can-outline</v-icon>
           </v-list-item-avatar>
           <v-list-item-title>Hapus Data Merchant</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          @click="dialog.menu.model = false;$router.push('/merchant/variant/'+dialog.menu.id)"
+        >
+          <v-list-item-avatar>
+            <v-icon size="32px" tile>mdi-brush</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title>Lihat Data Variant</v-list-item-title>
         </v-list-item>
         <v-list-item
           @click="dialog.menu.model = false;$router.push('/merchant/produk/'+dialog.menu.id)"
@@ -849,6 +844,34 @@ export default {
           this.loading.kelurahan = false;
           this.form.first = false;
         });
+    },
+    createLogo(file) {
+      if (file != null) {
+        const image = new Image();
+        const reader = new FileReader();
+        const vm = this;
+
+        reader.onload = e => {
+          vm.form.logo_merchant = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.form.logo_merchant = "";
+      }
+    },
+    createCover(file) {
+      if (file != null) {
+        const image = new Image();
+        const reader = new FileReader();
+        const vm = this;
+
+        reader.onload = e => {
+          vm.form.cover_merchant = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.form.cover_merchant = "";
+      }
     },
     addItem() {
       this.form.isEdit = false;

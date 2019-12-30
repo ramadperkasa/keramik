@@ -152,11 +152,11 @@ const data = () => {
             action: "/Produk/kategori"
           },
           {
-            text: "SubKategori 1",
+            text: "Sub Kategori 1",
             action: "/Produk/sub1/kategori"
           },
           {
-            text: "SubKategori 2",
+            text: "Sub Kategori 2",
             action: "/Produk/sub2/kategori"
           }
         ],
@@ -171,14 +171,14 @@ const data = () => {
         text: "Order",
         icon: "mdi-cart-outline",
         children: false,
-        action: "/backups",
+        action: "/order/jual",
         sub: false
       },
       {
         text: "Pembayaran",
         icon: "mdi-cash-register",
         children: false,
-        action: "/upload",
+        action: "/pembayaran",
         sub: false
       }
     ],

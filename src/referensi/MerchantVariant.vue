@@ -2,7 +2,7 @@
   <app>
     <v-row>
       <v-col cols="8">
-        <span class="title pl-2">MerchantVariant</span>
+        <span class="title pl-2">Merchant Variant</span>
       </v-col>
       <v-spacer></v-spacer>
       <div class="pr-4 align-self-center">
@@ -51,7 +51,7 @@
 
     <v-dialog v-model="dialog.alert.model" max-width="500">
       <v-card>
-        <v-card-title class="title">Apakah anda yakin ingin hapus data MerchantVariant ini?</v-card-title>
+        <v-card-title class="title">Apakah anda yakin ingin hapus data Merchant Variant ini?</v-card-title>
 
         <v-card-text>
           <v-row>
@@ -60,7 +60,7 @@
             </v-col>
             <v-col cols="11">
               Data yang telah di hapus akan terhapus secara permanen, apakah
-              anda yakin ingin menghapus data MerchantVariant ini?
+              anda yakin ingin menghapus data Merchant Variant ini?
             </v-col>
           </v-row>
         </v-card-text>
@@ -88,7 +88,7 @@
     <v-dialog v-model="dialog.form.model" persistent width="750">
       <v-card>
         <v-card-title primary-title>
-          <v-icon class="pr-2">{{ icon_form }}</v-icon>Input Data MerchantVariant
+          <v-icon class="pr-2">{{ icon_form }}</v-icon>Input Data Merchant Variant
           <v-spacer></v-spacer>
           <v-btn text @click="dialog.form.model = false">
             <v-icon>mdi-close</v-icon>
@@ -97,11 +97,6 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field
-              v-model="form.merchant_id"
-              label="Merchant Id *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
             <v-text-field
               v-model="form.nama_variant"
               label="Nama Variant *"
@@ -182,11 +177,6 @@ export default {
             value: "no"
           },
           {
-            text: "Merchant Id",
-            value: "merchant_id",
-            align: "left"
-          },
-          {
             text: "Nama Variant",
             value: "nama_variant",
             align: "left"
@@ -240,14 +230,15 @@ export default {
             ? "id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
-        search: this.search
+        search: this.search,
+        merchant_id: this.$route.params.id
       };
 
       const params = data;
       this.axios
-        .get("merchantvariant", { params })
+        .get("merchant/variant", { params })
         .then(response => {
-          this.table.items = response.data.merchantvariant;
+          this.table.items = response.data.data;
         })
         .catch(error => {
           this.alert.model = true;
@@ -278,9 +269,10 @@ export default {
     },
     updateMerchantVariant() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
-        .post("merchantvariant/update", params)
+        .post("merchant/variant/update", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -298,9 +290,10 @@ export default {
         });
     },
     createMerchantVariant() {
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
-        .post("merchantvariant/create", params)
+        .post("merchant/variant/create", params)
         .then(response => {
           this.table.items = response.data;
           this.dialog.form.model = false;
@@ -319,9 +312,10 @@ export default {
     },
     updateNewMerchantVariant() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
-        .post("merchantvariant/update", params)
+        .post("merchant/variant/update", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -340,9 +334,10 @@ export default {
     },
     createNewMerchantVariant() {
       this.dialog.form.loading = true;
+      this.form.merchant_id = this.$route.params.id;
       const params = this.form;
       this.axios
-        .post("merchantvariant/create", params)
+        .post("merchant/variant/create", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -362,9 +357,9 @@ export default {
     destroyMerchantVariant() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
-      const merchant_id = this.form.merchant_id;
+      const merchant_id = this.$route.params.id;
       this.axios
-        .post("merchantvariant/destroy", { id })
+        .post("merchant/variant/destroy", { id, merchant_id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;

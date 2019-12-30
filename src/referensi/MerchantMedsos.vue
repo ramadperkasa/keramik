@@ -105,7 +105,7 @@
             <v-combobox
               v-model="form.jenis_medsos_id"
               :items="select.medsos"
-              label="Nama Media Sosial *"
+              label="Jenis Media Sosial *"
               item-value="id"
               item-text="nama_jenis"
               :return-object="false"
@@ -255,7 +255,7 @@ export default {
         size: this.table.options.itemsPerPage,
         field:
           this.table.options.sortBy[0] == null
-            ? "id"
+            ? "merchant_id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
         search: this.search,
@@ -292,7 +292,7 @@ export default {
     addItem() {
       this.form.isEdit = false;
       this.dialog.form.model = true;
-      this.form.id = "";
+      this.form.jenis_medsos_id = "";
       this.form.merchant_id = "";
       this.form.jenis_medsos_id = "";
       this.form.nama_medsos = "";
@@ -300,14 +300,14 @@ export default {
     editItem(item) {
       this.dialog.form.model = true;
       this.form.isEdit = true;
-      this.form.id = item.id;
+      this.form.jenis_medsos_id = item.jenis_merdos_id;
       this.form.merchant_id = item.merchant_id;
       this.form.jenis_medsos_id = item.jenis_medsos_id;
       this.form.nama_medsos = item.nama_medsos;
     },
     destroyItem(item) {
       this.dialog.alert.model = true;
-      this.form.id = item.id;
+      this.form.jenis_medsos_id = item.jenis_merdos_id;
       this.form.merchant_id = item.merchant_id;
     },
     updateMerchantMedsos() {
@@ -399,10 +399,10 @@ export default {
     },
     destroyMerchantMedsos() {
       this.dialog.alert.loading = true;
-      const id = this.form.id;
+      const jenis_medsos_id = this.form.jenis_medsos_id;
       const merchant_id = this.$route.params.id;
       this.axios
-        .post("merchant/medsos/destroy", { id, merchant_id })
+        .post("merchant/medsos/destroy", { jenis_medsos_id, merchant_id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;

@@ -105,19 +105,81 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-combobox
-              v-model="form.hari_id"
-              :items="select.hari"
-              label="Nama hari *"
-              item-value="id"
-              item-text="nama_hari"
-              :return-object="false"
-              clearable
-            >
-              <template v-slot:selection="data">{{filterDataHari(data.item)}}</template>
-            </v-combobox>
-            <v-text-field v-model="form.jam_buka" label="Jam Buka *" hint="Contoh : Dipointer"></v-text-field>
-            <v-text-field v-model="form.jam_tutup" label="Jam Tutup *" hint="Contoh : Dipointer"></v-text-field>
+            <v-row>
+              <v-col cols="12">
+                <v-combobox
+                  v-model="form.hari_id"
+                  :items="select.hari"
+                  label="Nama hari *"
+                  item-value="id"
+                  item-text="nama_hari"
+                  :return-object="false"
+                  clearable
+                >
+                  <template v-slot:selection="data">{{filterDataHari(data.item)}}</template>
+                </v-combobox>
+              </v-col>
+              <v-col cols="6">
+                <v-menu
+                  ref="menu"
+                  v-model="dialog.menu1"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  :return-value.sync="dialog.menu1"
+                  transition="scale-transition"
+                  offset-y
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="form.jam_buka"
+                      label="Picker in menu"
+                      prepend-icon="mdi-clock-outline"
+                      readonly
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-time-picker
+                    v-if="dialog.menu1"
+                    v-model="form.jam_buka"
+                    full-width
+                    use-seconds
+                    format="24hr"
+                  ></v-time-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="6">
+                <v-menu
+                  ref="menu"
+                  v-model="dialog.menu2"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  :return-value.sync="dialog.menu2"
+                  transition="scale-transition"
+                  offset-y
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on }">
+                    <v-text-field
+                      v-model="form.jam_tutup"
+                      label="Picker in menu"
+                      prepend-icon="mdi-clock-outline"
+                      readonly
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-time-picker
+                    v-if="dialog.menu2"
+                    v-model="form.jam_tutup"
+                    full-width
+                    format="24hr"
+                    use-seconds
+                  ></v-time-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
           </v-card-text>
           <small>*Isian yang harus di isi</small>
         </v-container>
@@ -176,7 +238,9 @@ export default {
         alert: {
           model: false,
           loading: false
-        }
+        },
+        menu1: false,
+        menu2: false
       },
       form: {
         hari_id: "",
@@ -409,7 +473,7 @@ export default {
       const hari_id = this.form.hari_id;
       const merchant_id = this.$route.params.id;
       this.axios
-        .post("merchant/operasional/destroy", { id, merchant_id })
+        .post("merchant/operasional/destroy", { hari_id, merchant_id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;

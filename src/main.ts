@@ -4,10 +4,10 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 
-import * as firebase from 'firebase/app';
-import '@firebase/messaging';
+import * as firebase from "firebase/app";
+import "@firebase/messaging";
 
-var config = {
+const config = {
   apiKey: "AIzaSyDhJmb-IMq9MYoo0W3YNAxEVO2Gg6KSkN8",
   authDomain: "kadin-18aa3.firebaseapp.com",
   databaseURL: "https://kadin-18aa3.firebaseio.com",
@@ -31,7 +31,7 @@ Vue.component("c-galeri", Galeri);
 
 import axios from "axios";
 import VueAxios from "vue-axios";
-import './registerServiceWorker'
+import "./registerServiceWorker";
 
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;

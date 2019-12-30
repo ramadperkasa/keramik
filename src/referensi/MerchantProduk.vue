@@ -135,22 +135,34 @@
         <v-container>
           <v-card-text>
             <v-row>
-              <v-col cols="12">
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title>Jenis Kelamin</v-list-item-title>
-                  </v-list-item-content>
-                  <v-list-item-content>
-                    <v-list-item-subtitle>Laki laki</v-list-item-subtitle>
-                  </v-list-item-content>
+              <v-list-item @click="dialog.foto.model = true">
+                <v-list-item-content>
+                  <v-list-item-title>Foto</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>Pilih Foto Produk Anda Disini</v-list-item-subtitle>
+                </v-list-item-content>
 
-                  <v-list-item-action>
-                    <v-btn icon>
-                      <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
-                    </v-btn>
-                  </v-list-item-action>
-                </v-list-item>
-              </v-col>
+                <v-list-item-action>
+                  <v-btn icon>
+                    <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+              <v-list-item @click="dialog.variant.model =true">
+                <v-list-item-content>
+                  <v-list-item-title>Variant</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-content>
+                  <v-list-item-subtitle>Pilih Variant Produk Anda Disini</v-list-item-subtitle>
+                </v-list-item-content>
+
+                <v-list-item-action>
+                  <v-btn icon>
+                    <v-icon color="grey lighten-1">mdi-chevron-right</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
               <v-col cols="6">
                 <v-text-field
                   v-model="form.kode_produk_barang"
@@ -165,7 +177,6 @@
                   hint="Contoh : Dipointer"
                 ></v-text-field>
               </v-col>
-
               <v-col cols="6">
                 <v-combobox
                   v-model="form.produk_kategori_id"
@@ -473,6 +484,108 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="dialog.foto.model" persistent max-width="600">
+      <v-card>
+        <v-card-title class="headline">
+          Foto Produk
+          <v-spacer></v-spacer>
+          <v-btn text @click="dialog.foto.model = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text>
+          <div v-for="n in count.foto" :key="n">
+            <v-row>
+              <v-col cols="12">
+                <v-file-input label="Foto *" @change="createFoto" type="file"></v-file-input>
+              </v-col>
+            </v-row>
+          </div>
+          <v-row>
+            <v-col cols="6">
+              <v-btn
+                outlined
+                block
+                color="primary"
+                @click="form.foto[count.foto - 1] = ''; count.foto > 1 ?  count.foto-- : '';"
+              >
+                <v-icon>mdi-minus</v-icon>Kurangi Foto
+              </v-btn>
+            </v-col>
+            <v-col cols="6">
+              <v-btn outlined block color="primary" @click="count.foto ++">
+                <v-icon>mdi-plus</v-icon>Tambah Foto
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="dialog.variant.model" persistent max-width="600">
+      <v-card>
+        <v-card-title class="headline">
+          Variant Produk
+          <v-spacer></v-spacer>
+          <v-btn text @click="dialog.variant.model = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-card-text>
+          <div v-for="n in count.variant" :key="n">
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="form.variant.variant_id[n-1]"
+                  label="Nama Variant *"
+                  hint="Contoh : Dipointer"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="form.variant.harga[n-1]"
+                  label="Harga *"
+                  hint="Contoh : Dipointer"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="form.variant.stok[n-1]"
+                  label="Stok *"
+                  hint="Contoh : Dipointer"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="form.variant.stok_minimum[n-1]"
+                  label="Stok Minimum *"
+                  hint="Contoh : Dipointer"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-divider v-if="n != count.variant"></v-divider>
+          </div>
+          <v-row>
+            <v-col cols="6">
+              <v-btn
+                outlined
+                block
+                color="primary"
+                @click="count.variant > 1 ?  count.variant-- : ''"
+              >
+                <v-icon>mdi-minus</v-icon>Kurangi Variant
+              </v-btn>
+            </v-col>
+            <v-col cols="6">
+              <v-btn outlined block color="primary" @click="count.variant ++">
+                <v-icon>mdi-plus</v-icon>Tambah Variant
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </app>
 </template>
 
@@ -499,6 +612,12 @@ export default {
           model: false,
           loading: false,
           variant: false
+        },
+        foto: {
+          model: false
+        },
+        variant: {
+          model: false
         }
       },
       form: {
@@ -512,6 +631,13 @@ export default {
         kode_produk_barang: "",
         berat_produk: "",
         kondisi: "",
+        foto: [],
+        variant: {
+          variant_id: [],
+          harga: [],
+          stok: [],
+          stok_minimum: []
+        },
         status_produk: "",
         isEdit: false
       },
@@ -610,6 +736,10 @@ export default {
         kategori1: false,
         kategori2: false,
         kategori3: false
+      },
+      count: {
+        foto: 1,
+        variant: 1
       }
     };
   },
@@ -634,6 +764,7 @@ export default {
   },
   mounted() {
     this.fetchProdukKategori();
+    this.fetchVariant();
   },
   computed: {
     search() {
@@ -654,7 +785,7 @@ export default {
         size: this.table.options.itemsPerPage,
         field:
           this.table.options.sortBy[0] == null
-            ? "id"
+            ? "merchant_id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
         search: this.search,
@@ -686,7 +817,6 @@ export default {
         });
     },
     fetchProdukKategori2(produk_kategori_id) {
-      this.form.produk_kategori_id2 = this.form.produk_kategori_id3;
       this.select.kategori2 = [];
       this.loading.kategori2 = true;
       const data = {
@@ -707,7 +837,6 @@ export default {
         });
     },
     fetchProdukKategori3(produk_sub1_kategori_id) {
-      this.form.produk_kategori_id3 = this.form.produk_kategori_id3;
       this.select.kategori3 = [];
       this.loading.kategori3 = true;
       const data = {
@@ -726,6 +855,31 @@ export default {
         .finally(() => {
           this.loading.kategori3 = false;
         });
+    },
+    fetchVariant() {
+      this.axios
+        .get("get/merchant-variant")
+        .then(response => {
+          this.select.variant = response.data.marchant_variant;
+        })
+        .catch(error => {
+          this.alert.model = true;
+          this.alert.text = "Terjadi Kesalahan";
+        });
+    },
+    createFoto(file) {
+      if (file != null) {
+        const image = new Image();
+        const reader = new FileReader();
+        const vm = this;
+
+        reader.onload = e => {
+          vm.form.foto[vm.count.foto - 1] = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.form.foto[vm.count.foto] = "";
+      }
     },
     addItem() {
       this.form.isEdit = false;
