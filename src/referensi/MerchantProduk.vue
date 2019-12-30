@@ -536,11 +536,12 @@
           <div v-for="n in count.variant" :key="n">
             <v-row>
               <v-col cols="6">
-                <v-text-field
+                <v-combobox
                   v-model="form.variant.variant_id[n-1]"
+                  :items="select.variant"
                   label="Nama Variant *"
-                  hint="Contoh : Dipointer"
-                ></v-text-field>
+                  clearable
+                ></v-combobox>
               </v-col>
               <v-col cols="6">
                 <v-text-field
@@ -729,7 +730,8 @@ export default {
         kategori1: [],
         kategori2: [],
         kategori3: [],
-        profile: {}
+        profile: {},
+        variant: []
       },
       loading: {
         table: false,
@@ -860,7 +862,7 @@ export default {
       this.axios
         .get("get/merchant-variant")
         .then(response => {
-          this.select.variant = response.data.marchant_variant;
+          this.select.variant = response.data.merchant_variant;
         })
         .catch(error => {
           this.alert.model = true;
