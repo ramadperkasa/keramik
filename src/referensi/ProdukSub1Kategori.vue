@@ -261,7 +261,7 @@ export default {
       this.axios
         .get("produk/subkategori1", { params })
         .then(response => {
-          this.table.items = response.data.produk_subkategori1;
+          this.table.items = response.data.produk_kategori;
         })
         .catch(error => {
           this.alert.model = true;

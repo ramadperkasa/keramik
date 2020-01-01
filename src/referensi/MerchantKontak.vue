@@ -251,7 +251,7 @@ export default {
         size: this.table.options.itemsPerPage,
         field:
           this.table.options.sortBy[0] == null
-            ? "id"
+            ? "merchant_id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
         search: this.search,

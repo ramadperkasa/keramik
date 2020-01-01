@@ -190,7 +190,6 @@ export default {
         }
       },
       form: {
-        id: "",
         merchant_id: "",
         bank_id: "",
         rekening_no: "",
@@ -280,7 +279,7 @@ export default {
         size: this.table.options.itemsPerPage,
         field:
           this.table.options.sortBy[0] == null
-            ? "id"
+            ? "bank_id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
         search: this.search,
@@ -317,7 +316,7 @@ export default {
     addItem() {
       this.form.isEdit = false;
       this.dialog.form.model = true;
-      this.form.id = "";
+      this.form.bank_id = "";
       this.form.merchant_id = "";
       this.form.bank_id = "";
       this.form.rekening_no = "";
@@ -327,7 +326,7 @@ export default {
     editItem(item) {
       this.dialog.form.model = true;
       this.form.isEdit = true;
-      this.form.id = item.id;
+      this.form.bank_id = item.bank_id;
       this.form.merchant_id = item.merchant_id;
       this.form.bank_id = item.bank_id;
       this.form.rekening_no = item.rekening_no;
@@ -336,7 +335,7 @@ export default {
     },
     destroyItem(item) {
       this.dialog.alert.model = true;
-      this.form.id = item.id;
+      this.form.bank_id = item.bank_id;
       this.form.merchant_id = item.merchant_id;
     },
     updateMerchantRekening() {
@@ -428,10 +427,10 @@ export default {
     },
     destroyMerchantRekening() {
       this.dialog.alert.loading = true;
-      const id = this.form.id;
+      const bank_id = this.form.bank_id;
       const merchant_id = this.$route.params.id;
       this.axios
-        .post("merchant/rekening/destroy", { id })
+        .post("merchant/rekening/destroy", { bank_id, merchant_id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;

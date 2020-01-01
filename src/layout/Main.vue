@@ -150,7 +150,6 @@
         </v-icon>
       </v-btn>
     </v-app-bar>
-
     <v-content
       :style="
         $vuetify.theme.dark
@@ -162,14 +161,6 @@
         <slot></slot>
       </v-card>
     </v-content>
-
-    <!-- <v-footer
-      inset
-      app
-      :style="$vuetify.theme.dark ? 'background-color:#424242;border-top:1px solid rgba(255, 255, 255, 0.12)' : 'background-color:#ffffff;border-top:1px solid #eaeaea'"
-    >
-      <span class="px-4">&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>-->
   </v-app>
 </template>
 <script>
@@ -180,31 +171,6 @@ import store from "../store/index";
 export default {
   data() {
     return data();
-  },
-
-  mounted() {
-    var notification = {
-      title: "Portugal vs. Denmark",
-      body: "5 to 1",
-      icon: "firebase-logo.png",
-      click_action: "http://localhost:8081"
-    };
-
-    var data = {
-      notification: notification,
-      to:
-        "d5T4kXA8uRAONYxiTy2gH-:APA91bHzLjPVJslRvFjhVRBVrxvCvke-5k_Ac_NWaB7qYPWh2QMTTR6MhNJRyMouT87VBqmAm3VZCjJlrbbh_6qfVr8DZ4YUNX54jpQDpuhcPQjXnPmgNF-2m-Sn8U_63QS86OkRFE-E"
-    };
-
-    this.axios
-      .post("https://fcm.googleapis.com/fcm/send", data, {
-        headers: {
-          Authorization:
-            "key=AAAAwfyJdVY:APA91bEpesQYHA2EqzAWP9w5leLP-SBk8vzAIu0YT4WlEmc4o1BMUwHJpR6AB2XFTKdvHxt7MWQE7mtS_qrwmSls57vjP6rkYx0eFQgIsZxqmfzSXmrxtAe7ftvmn2qQNc7V8A_skg2e",
-          "Content-Type": "application/json"
-        }
-      })
-      .then(response => {});
   },
 
   components: {

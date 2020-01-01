@@ -38,7 +38,7 @@
         item.nama_legalitas
         }}
       </template>
-      <template v-slot:item.foto_id="{ item }">
+      <template v-slot:item.foto="{ item }">
         <v-img
           :src="item.foto"
           contain
@@ -116,26 +116,10 @@
         <v-container>
           <v-card-text>
             <v-row>
-              <v-col cols="3" class="align-self-center d-flex justify-center">
-                <div v-if="form.foto_id == ''">
-                  <v-btn color="primary" outlined @click="setGaleriModel()">
-                    <v-icon>mdi-image</v-icon>Pilih Foto
-                  </v-btn>
-                  <c-galeri
-                    @id="f => { return this.form.foto_id = f.id,  this.form.file_nama = f.file_nama}"
-                  ></c-galeri>
-                </div>
-                <div v-else>
-                  <img
-                    :src="form.file_nama"
-                    aspect-ratio="1"
-                    width="40"
-                    style="cursor:pointer"
-                    @click="form.foto_id = ''"
-                  />
-                </div>
+              <v-col cols="6">
+                <v-file-input label="Foto *" @change="createFoto" type="file"></v-file-input>
               </v-col>
-              <v-col cols="9">
+              <v-col cols="6">
                 <v-combobox
                   v-model="form.jenis_legalitas_id"
                   :items="select.legalitas"
@@ -217,7 +201,7 @@ export default {
         merchant_id: "",
         jenis_legalitas_id: "",
         nomor: "",
-        foto_id: "",
+        foto: "",
         file_nama: "",
         isEdit: false
       },
@@ -237,12 +221,12 @@ export default {
             align: "left"
           },
           {
-            text: "Foto Id",
-            value: "foto_id",
+            text: "Foto",
+            value: "foto",
             align: "left"
           },
           {
-            text: "Jenis Legalitas Id",
+            text: "Jenis Legalitas",
             value: "jenis_legalitas_id",
             align: "left"
           },
@@ -293,12 +277,13 @@ export default {
   methods: {
     fetchMerchantLegalitas() {
       this.loading.table = true;
+      this.table.items = [];
       const data = {
         page: this.table.options.page,
         size: this.table.options.itemsPerPage,
         field:
           this.table.options.sortBy[0] == null
-            ? "id"
+            ? "merchant_id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
         search: this.search,
@@ -332,27 +317,41 @@ export default {
           this.loading.table = false;
         });
     },
+    createFoto(file) {
+      if (file != null) {
+        const image = new Image();
+        const reader = new FileReader();
+        const vm = this;
+
+        reader.onload = e => {
+          vm.form.foto = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.form.foto = "";
+      }
+    },
     addItem() {
       this.form.isEdit = false;
       this.dialog.form.model = true;
-      this.form.id = "";
+      this.form.jenis_legalitas_id = "";
       this.form.merchant_id = "";
       this.form.jenis_legalitas_id = "";
       this.form.nomor = "";
-      this.form.foto_id = "";
+      this.form.foto = "";
     },
     editItem(item) {
       this.dialog.form.model = true;
       this.form.isEdit = true;
-      this.form.id = item.id;
+      this.form.jenis_legalitas_id = item.jenis_legalitas_id;
       this.form.merchant_id = item.merchant_id;
       this.form.jenis_legalitas_id = item.jenis_legalitas_id;
       this.form.nomor = item.nomor;
-      this.form.foto_id = item.foto_id;
+      this.form.foto = item.foto;
     },
     destroyItem(item) {
       this.dialog.alert.model = true;
-      this.form.id = item.id;
+      this.form.jenis_legalitas_id = item.jenis_legalitas_id;
       this.form.merchant_id = item.merchant_id;
     },
     updateMerchantLegalitas() {
@@ -443,11 +442,11 @@ export default {
     },
     destroyMerchantLegalitas() {
       this.dialog.alert.loading = true;
-      const id = this.form.id;
+      const id = this.form.jenis_legalitas_id;
       const merchant_id = this.$route.params.id;
       this.axios
         .post("merchant/legalitas/destroy", {
-          id,
+          jenis_legalitas_id: id,
           merchant_id
         })
         .then(response => {

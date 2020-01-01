@@ -2,19 +2,13 @@
   <app>
     <v-row>
       <v-col cols="8">
-        <span class="title pl-2">OrderJual</span>
+        <span class="title pl-2">Order Jual</span>
       </v-col>
       <v-spacer></v-spacer>
       <div class="pr-4 align-self-center">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              text
-              color="primary"
-              class="mr-3"
-              @click="addItem()"
-            >
+            <v-btn v-on="on" text color="primary" class="mr-3" @click="addItem()">
               <v-icon>mdi-plus</v-icon>Baru
             </v-btn>
           </template>
@@ -34,44 +28,38 @@
         itemsPerPageOptions: pagination
       }"
     >
-      <template v-slot:item.no="{ item }">{{
+      <template v-slot:item.no="{ item }">
+        {{
         table.items.data.indexOf(item) + table.items.from
-      }}</template>
+        }}
+      </template>
       <template v-slot:item.action="{ item }">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small class="mr-2" @click="editItem(item)"
-              >mdi-pencil</v-icon
-            >
+            <v-icon
+              v-on="on"
+              class="mr-2"
+              @click="dialog.menu.model = true;dialog.menu.id = item.id"
+            >mdi-dots-vertical</v-icon>
           </template>
-          <span color="primary">Edit</span>
-        </v-tooltip>
-        <v-tooltip right>
-          <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small @click="destroyItem(item)"
-              >mdi-delete</v-icon
-            >
-          </template>
-          <span>Hapus</span>
+          <span color="primary">Lainnya</span>
         </v-tooltip>
       </template>
     </v-data-table>
 
     <v-dialog v-model="dialog.alert.model" max-width="500">
       <v-card>
-        <v-card-title class="title"
-          >Apakah anda yakin ingin hapus data OrderJual ini?</v-card-title
-        >
+        <v-card-title class="title">Apakah anda yakin ingin hapus data Order Jual ini?</v-card-title>
 
         <v-card-text>
           <v-row>
             <v-col cols="1" class="align-self-center pl-1">
               <v-icon large class>mdi-alert-circle</v-icon>
             </v-col>
-            <v-col cols="11"
-              >Data yang telah di hapus akan terhapus secara permanen, apakah
-              anda yakin ingin menghapus data OrderJual ini?</v-col
-            >
+            <v-col cols="11">
+              Data yang telah di hapus akan terhapus secara permanen, apakah
+              anda yakin ingin menghapus data Order Jual ini?
+            </v-col>
           </v-row>
         </v-card-text>
         <v-divider></v-divider>
@@ -83,25 +71,21 @@
             :disabled="dialog.alert.loading"
             text
             @click="dialog.alert.model = false"
-            >Batal</v-btn
-          >
+          >Batal</v-btn>
           <v-btn
             color="primary"
             :loading="dialog.alert.loading"
             :disabled="dialog.alert.loading"
             text
             @click="destroyOrderJual()"
-            >Hapus</v-btn
-          >
+          >Hapus</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <v-dialog v-model="dialog.form.model" persistent width="750">
       <v-card>
         <v-card-title primary-title>
-          <v-icon class="pr-2">{{ icon_form }}</v-icon
-          >Input Data OrderJual
+          <v-icon class="pr-2">{{ icon_form }}</v-icon>Input Data OrderJual
           <v-spacer></v-spacer>
           <v-btn text @click="dialog.form.model = false">
             <v-icon>mdi-close</v-icon>
@@ -110,11 +94,19 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field
-              v-model="form.id"
-              label="Id *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
+            <v-row>
+              <v-col></v-col>
+              <v-col></v-col>
+              <v-col></v-col>
+              <v-col></v-col>
+              <v-col></v-col>
+              <v-col></v-col>
+              <v-col></v-col>
+              <v-col></v-col>
+              <v-col></v-col>
+              <v-col></v-col>
+              <v-col></v-col>
+            </v-row>
             <v-text-field
               v-model="form.tgl_transaksi"
               label="Tgl Transaksi *"
@@ -248,52 +240,22 @@ export default {
             value: "no"
           },
           {
-            text: "Id",
-            value: "id",
-            align: "left"
-          },
-          {
             text: "Tgl Transaksi",
             value: "tgl_transaksi",
             align: "left"
           },
           {
-            text: "Konsumen Id",
+            text: "Konsumen",
             value: "konsumen_id",
             align: "left"
           },
           {
-            text: "Pengiriman Alamat",
-            value: "pengiriman_alamat",
-            align: "left"
-          },
-          {
-            text: "Pengiriman Provinsi Id",
-            value: "pengiriman_provinsi_id",
-            align: "left"
-          },
-          {
-            text: "Pengiriman Kabupaten Id",
-            value: "pengiriman_kabupaten_id",
-            align: "left"
-          },
-          {
-            text: "Pengiriman Kecamatan Id",
-            value: "pengiriman_kecamatan_id",
-            align: "left"
-          },
-          {
-            text: "Pengiriman Kelurahan Id",
-            value: "pengiriman_kelurahan_id",
-            align: "left"
-          },
-          {
-            text: "Metode Pengiriman Id",
+            text: "Metode Pengiriman",
             value: "metode_pengiriman_id",
             align: "left"
           },
           {
-            text: "Metode Pembayaran Id",
+            text: "Metode Pembayaran",
             value: "metode_pembayaran_id",
             align: "left"
           },
@@ -496,7 +458,7 @@ export default {
       this.dialog.alert.loading = true;
       const id = this.form.id;
       axios
-        .post("orderjual/destroy", {id})
+        .post("orderjual/destroy", { id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
