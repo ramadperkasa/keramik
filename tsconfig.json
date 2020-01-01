@@ -11,12 +11,12 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "noImplicitAny": false,
     "types": [
       "webpack-env",
       "mocha",
       "chai",
       "vuetify",
-      "vue-content-loader"
     ],
     "paths": {
       "@/*": [
@@ -36,7 +36,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "index.d.ts",
+    "src/**/*.js",
   ],
   "exclude": [
     "node_modules"
