@@ -6,7 +6,7 @@ import vuetify from "./plugins/vuetify";
 
 import * as firebase from "firebase/app";
 import "@firebase/messaging";
-
+// const Auth = require('./auth');
 const config = {
   apiKey: "AIzaSyDhJmb-IMq9MYoo0W3YNAxEVO2Gg6KSkN8",
   authDomain: "kadin-18aa3.firebaseapp.com",
@@ -35,6 +35,7 @@ import "./registerServiceWorker";
 
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = process.env.VUE_APP_BASE_URL;
+// Vue.axios.defaults.headers.common["Authorization"] = "Bearer " + Auth.getToken();
 
 Vue.config.productionTip = false;
 
