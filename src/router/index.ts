@@ -1,5 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+const NProgress = require("nprogress");
+import "nprogress/nprogress.css";
+
+import { isAuthenticated } from "../auth";
 
 import SettingProfile from "../user/SettingProfile.vue";
 import Login from "../layout/Login.vue";
@@ -68,7 +72,8 @@ const routes = [
     name: "setting-profile",
     component: SettingProfile,
     meta: {
-      title: "Setting Profile"
+      title: "Setting Profile",
+      auth: true
     }
   },
   {
@@ -76,7 +81,8 @@ const routes = [
     name: "dashboard",
     component: Dashboard,
     meta: {
-      title: "Dashboard"
+      title: "Dashboard",
+      auth: true
     }
   },
   {
@@ -84,7 +90,8 @@ const routes = [
     name: "agama",
     component: Agama,
     meta: {
-      title: "Master Agama"
+      title: "Master Agama",
+      auth: true
     }
   },
   {
@@ -92,7 +99,8 @@ const routes = [
     name: "bank",
     component: Bank,
     meta: {
-      title: "Master Bank"
+      title: "Master Bank",
+      auth: true
     }
   },
   {
@@ -100,7 +108,8 @@ const routes = [
     name: "foto",
     component: Foto,
     meta: {
-      title: "Foto"
+      title: "Foto",
+      auth: true
     }
   },
   {
@@ -108,7 +117,8 @@ const routes = [
     name: "hari",
     component: Hari,
     meta: {
-      title: "Master Hari"
+      title: "Master Hari",
+      auth: true
     }
   },
   {
@@ -116,7 +126,8 @@ const routes = [
     name: "jenis-foto",
     component: JenisFoto,
     meta: {
-      title: "Master Jenis Foto"
+      title: "Master Jenis Foto",
+      auth: true
     }
   },
   {
@@ -124,7 +135,8 @@ const routes = [
     name: "jenis-kontak",
     component: JenisKontak,
     meta: {
-      title: "Master Jenis Kontak"
+      title: "Master Jenis Kontak",
+      auth: true
     }
   },
   {
@@ -132,7 +144,8 @@ const routes = [
     name: "jenis-legalitas",
     component: JenisLegalitas,
     meta: {
-      title: "Master Jenis Legalitas"
+      title: "Master Jenis Legalitas",
+      auth: true
     }
   },
   {
@@ -140,7 +153,8 @@ const routes = [
     name: "jenis-medsos",
     component: JenisMedsos,
     meta: {
-      title: "Master Jenis Medsos"
+      title: "Master Jenis Medsos",
+      auth: true
     }
   },
   {
@@ -148,7 +162,8 @@ const routes = [
     name: "kabupaten",
     component: Kabupaten,
     meta: {
-      title: "Master Kabupaten"
+      title: "Master Kabupaten",
+      auth: true
     }
   },
   {
@@ -156,7 +171,8 @@ const routes = [
     name: "kategori-merchant",
     component: KategoriMerchant,
     meta: {
-      title: "Master Kategori Merchant"
+      title: "Master Kategori Merchant",
+      auth: true
     }
   },
   {
@@ -164,7 +180,8 @@ const routes = [
     name: "kategori-merchant-detail",
     component: KategoriMerchantDetail,
     meta: {
-      title: "Master Kategori Merchant Detail"
+      title: "Master Kategori Merchant Detail",
+      auth: true
     }
   },
   {
@@ -172,7 +189,8 @@ const routes = [
     name: "kecamatan",
     component: Kecamatan,
     meta: {
-      title: "Master Kecamatan"
+      title: "Master Kecamatan",
+      auth: true
     }
   },
   {
@@ -180,7 +198,8 @@ const routes = [
     name: "kelurahan",
     component: Kelurahan,
     meta: {
-      title: "Master Kelurahan"
+      title: "Master Kelurahan",
+      auth: true
     }
   },
   {
@@ -188,7 +207,8 @@ const routes = [
     name: "konsumen",
     component: Konsumen,
     meta: {
-      title: "Konsumen"
+      title: "Konsumen",
+      auth: true
     }
   },
   {
@@ -196,7 +216,8 @@ const routes = [
     name: "konsumen-foto",
     component: KonsumenFoto,
     meta: {
-      title: "Foto Konsumen"
+      title: "Foto Konsumen",
+      auth: true
     }
   },
   {
@@ -204,7 +225,8 @@ const routes = [
     name: "konsumen-medsos",
     component: KonsumenMedsos,
     meta: {
-      title: "Media Sosial Konsumen"
+      title: "Media Sosial Konsumen",
+      auth: true
     }
   },
   {
@@ -212,7 +234,8 @@ const routes = [
     name: "konsumen-rekening",
     component: KonsumenRekening,
     meta: {
-      title: "Rekening Konsumen"
+      title: "Rekening Konsumen",
+      auth: true
     }
   },
   {
@@ -220,7 +243,8 @@ const routes = [
     name: "merchant",
     component: Merchant,
     meta: {
-      title: "Merchant"
+      title: "Merchant",
+      auth: true
     }
   },
   {
@@ -228,7 +252,8 @@ const routes = [
     name: "merchant-kontak",
     component: MerchantKontak,
     meta: {
-      title: "Kontak Merchant"
+      title: "Kontak Merchant",
+      auth: true
     }
   },
   {
@@ -236,7 +261,8 @@ const routes = [
     name: "merchant-legalitas",
     component: MerchantLegalitas,
     meta: {
-      title: "Legalitas Merchant"
+      title: "Legalitas Merchant",
+      auth: true
     }
   },
   {
@@ -244,7 +270,8 @@ const routes = [
     name: "merchant-medsos",
     component: MerchantMedsos,
     meta: {
-      title: "Media Sosial Merchant"
+      title: "Media Sosial Merchant",
+      auth: true
     }
   },
   {
@@ -252,7 +279,8 @@ const routes = [
     name: "merchant-operasional",
     component: MerchantOperasional,
     meta: {
-      title: "Operasional Merchant"
+      title: "Operasional Merchant",
+      auth: true
     }
   },
   {
@@ -260,7 +288,8 @@ const routes = [
     name: "merchant-produk",
     component: MerchantProduk,
     meta: {
-      title: "Produk Merchant"
+      title: "Produk Merchant",
+      auth: true
     }
   },
   {
@@ -268,7 +297,8 @@ const routes = [
     name: "merchant-produk-image",
     component: MerchantProdukImage,
     meta: {
-      title: "Produk Image Merchant"
+      title: "Produk Image Merchant",
+      auth: true
     }
   },
   {
@@ -276,7 +306,8 @@ const routes = [
     name: "merchant-produk-variant",
     component: MerchantProdukVariant,
     meta: {
-      title: "Produk Variant Merchant"
+      title: "Produk Variant Merchant",
+      auth: true
     }
   },
   {
@@ -284,7 +315,8 @@ const routes = [
     name: "merchant-rekening",
     component: MerchantRekening,
     meta: {
-      title: "Rekening Merchant"
+      title: "Rekening Merchant",
+      auth: true
     }
   },
   {
@@ -292,7 +324,8 @@ const routes = [
     name: "merchant-variant",
     component: MerchantVariant,
     meta: {
-      title: "Variant Merchant"
+      title: "Variant Merchant",
+      auth: true
     }
   },
   {
@@ -300,7 +333,8 @@ const routes = [
     name: "metode-pembayaran",
     component: MetodePembayaran,
     meta: {
-      title: "Master Metode Pembayaran"
+      title: "Master Metode Pembayaran",
+      auth: true
     }
   },
   {
@@ -308,7 +342,8 @@ const routes = [
     name: "metode-pengiriman",
     component: MetodePengiriman,
     meta: {
-      title: "Master Metode Pengiriman"
+      title: "Master Metode Pengiriman",
+      auth: true
     }
   },
   {
@@ -316,7 +351,8 @@ const routes = [
     name: "foto-system",
     component: FotoSystem,
     meta: {
-      title: "Foto System"
+      title: "Foto System",
+      auth: true
     }
   },
   {
@@ -324,7 +360,8 @@ const routes = [
     name: "mitra",
     component: Mitra,
     meta: {
-      title: "Mitra"
+      title: "Mitra",
+      auth: true
     }
   },
   {
@@ -332,7 +369,8 @@ const routes = [
     name: "mitra-foto",
     component: MitraFoto,
     meta: {
-      title: "Foto Mitra"
+      title: "Foto Mitra",
+      auth: true
     }
   },
   {
@@ -340,7 +378,8 @@ const routes = [
     name: "mitra-kontak",
     component: MitraKontak,
     meta: {
-      title: "Kontak Mitra"
+      title: "Kontak Mitra",
+      auth: true
     }
   },
   {
@@ -348,7 +387,8 @@ const routes = [
     name: "mitra-legalitas",
     component: MitraLegalitas,
     meta: {
-      title: "Legalitas Mitra"
+      title: "Legalitas Mitra",
+      auth: true
     }
   },
   {
@@ -356,7 +396,8 @@ const routes = [
     name: "mitra-medsos",
     component: MitraMedsos,
     meta: {
-      title: "Media Sosial Mitra"
+      title: "Media Sosial Mitra",
+      auth: true
     }
   },
   {
@@ -364,7 +405,8 @@ const routes = [
     name: "produk-kategori",
     component: ProdukKategori,
     meta: {
-      title: "Produk Kategori"
+      title: "Produk Kategori",
+      auth: true
     }
   },
   {
@@ -372,7 +414,8 @@ const routes = [
     name: "produk-kategori-detail",
     component: ProdukKategoriDetail,
     meta: {
-      title: "Produk Kategori Detail"
+      title: "Produk Kategori Detail",
+      auth: true
     }
   },
   {
@@ -380,7 +423,8 @@ const routes = [
     name: "produk-spesifikasi",
     component: ProdukSpesifikasi,
     meta: {
-      title: "Produk Spesifikasi"
+      title: "Produk Spesifikasi",
+      auth: true
     }
   },
   {
@@ -388,7 +432,8 @@ const routes = [
     name: "produk-sub1-kategori",
     component: ProdukSub1Kategori,
     meta: {
-      title: "Produk Sub1 Kategori"
+      title: "Produk Sub1 Kategori",
+      auth: true
     }
   },
   {
@@ -396,7 +441,8 @@ const routes = [
     name: "produk-sub2-kategori",
     component: ProdukSub2Kategori,
     meta: {
-      title: "Produk Sub2 Kategori"
+      title: "Produk Sub2 Kategori",
+      auth: true
     }
   },
   {
@@ -404,7 +450,8 @@ const routes = [
     name: "provinsi",
     component: Provinsi,
     meta: {
-      title: "Master Provinsi"
+      title: "Master Provinsi",
+      auth: true
     }
   },
   {
@@ -412,7 +459,8 @@ const routes = [
     name: "rekening",
     component: Rekening,
     meta: {
-      title: "Master Rekening"
+      title: "Master Rekening",
+      auth: true
     }
   },
   {
@@ -420,7 +468,8 @@ const routes = [
     name: "merchant-pembayaran",
     component: MerchantPembayaran,
     meta: {
-      title: "Merchant Pembayaran"
+      title: "Merchant Pembayaran",
+      auth: true
     }
   },
   {
@@ -428,7 +477,8 @@ const routes = [
     name: "order-jual",
     component: OrderJual,
     meta: {
-      title: "Order Jual"
+      title: "Order Jual",
+      auth: true
     }
   },
   {
@@ -436,7 +486,8 @@ const routes = [
     name: "order-jual-detail",
     component: OrderJualDetail,
     meta: {
-      title: "Order Jual Detail"
+      title: "Order Jual Detail",
+      auth: true
     }
   },
   {
@@ -444,7 +495,8 @@ const routes = [
     name: "order-jual-detail-pembarayan",
     component: OrderJualDetailPembarayan,
     meta: {
-      title: "Order Jual Detail Pembayaran"
+      title: "Order Jual Detail Pembayaran",
+      auth: true
     }
   },
   {
@@ -452,7 +504,8 @@ const routes = [
     name: "pembayaran",
     component: Pembayaran,
     meta: {
-      title: "Pembayaran"
+      title: "Pembayaran",
+      auth: true
     }
   }
 ];
@@ -469,7 +522,25 @@ router.beforeEach((to, from, next) => {
   // If a route with a title was found, set the document (page) title to that value.
   if (nearestWithTitle) document.title = process.env.VUE_APP_NAME + nearestWithTitle.meta.title;
 
+  NProgress.configure({
+    showSpinner: false,
+  });
+  NProgress.start();
+
+  // if (to.matched.some(record => record.meta.auth)) {
+  //   if (isAuthenticated()) {
+  //     next();
+  //   } else {
+  //     router.push("/login");
+  //     NProgress.done();
+  //   }
+  // }
+
   next();
+});
+
+router.afterEach((to, from) => {
+  NProgress.done();
 });
 
 export default router;
