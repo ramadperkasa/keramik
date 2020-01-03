@@ -100,7 +100,7 @@
             <v-text-field
               v-model="form.nama_produk_kategori"
               label="Nama Produk Kategori *"
-              hint="Contoh : Dipointer"
+              hint="Contoh : Makanan Dan Minuman"
             ></v-text-field>
           </v-card-text>
           <small>*Isian yang harus di isi</small>

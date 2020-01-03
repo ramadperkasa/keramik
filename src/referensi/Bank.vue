@@ -131,7 +131,7 @@
                 <v-text-field v-model="form.bank_singkatan" label="Singkatan" hint="Contoh : BCA"></v-text-field>
               </v-col>
               <v-col cols="6">
-                <v-text-field v-model="form.bank_kode" label="Kode Bank*" hint="Contoh : Dipointer"></v-text-field>
+                <v-text-field v-model="form.bank_kode" label="Kode Bank*" hint="Contoh : 014"></v-text-field>
               </v-col>
             </v-row>
           </v-card-text>

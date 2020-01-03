@@ -97,7 +97,7 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-text-field v-model="form.nama_jenis" label="Nama Jenis *" hint="Contoh : Dipointer"></v-text-field>
+            <v-text-field v-model="form.nama_jenis" label="Nama Jenis *" hint="Contoh : NPWP"></v-text-field>
           </v-card-text>
           <small>*Isian yang harus di isi</small>
         </v-container>

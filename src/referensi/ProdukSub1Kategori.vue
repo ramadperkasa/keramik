@@ -111,7 +111,7 @@
             >
               <template v-slot:selection="data">{{filterDataKategori(data.item)}}</template>
             </v-combobox>
-            <v-text-field v-model="form.nama" label="Nama *" hint="Contoh : Dipointer"></v-text-field>
+            <v-text-field v-model="form.nama" label="Nama *" hint="Contoh : Makanan Ringan"></v-text-field>
           </v-card-text>
           <small>*Isian yang harus di isi</small>
         </v-container>

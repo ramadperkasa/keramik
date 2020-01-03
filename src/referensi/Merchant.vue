@@ -59,7 +59,7 @@
             <v-icon
               v-on="on"
               class="mr-2"
-              @click="dialog.menu.model = true;dialog.menu.id = item.id"
+              @click="dialog.menu.model = true;dialog.menu.id = item.id;dialog.menu.item = item"
             >mdi-dots-vertical</v-icon>
           </template>
           <span color="primary">Lainnya</span>
@@ -142,10 +142,35 @@
                 ></v-select>
               </v-col>
               <v-col cols="6">
-                <v-file-input label="Logo Merchant *" @change="createLogo" type="file"></v-file-input>
+                <v-file-input
+                  v-if="!form.logo_merchant"
+                  label="Logo Merchant *"
+                  @change="createLogo"
+                  type="file"
+                ></v-file-input>
+                <img
+                  v-else
+                  :src="form.logo_merchant"
+                  aspect-ratio="1"
+                  width="40"
+                  style="cursor:pointer"
+                  @click="form.logo_merchant = ''"
+                />
               </v-col>
               <v-col cols="6">
-                <v-file-input label="Cover Merchant *" @change="createCover"></v-file-input>
+                <v-file-input
+                  v-if="!form.cover_merchant"
+                  label="Cover Merchant *"
+                  @change="createCover"
+                ></v-file-input>
+                <img
+                  v-else
+                  :src="form.cover_merchant"
+                  aspect-ratio="1"
+                  width="40"
+                  style="cursor:pointer"
+                  @click="form.cover_merchant = ''"
+                />
               </v-col>
               <v-col cols="12">
                 <v-textarea v-model="form.deskripsi_merchant" label="Deskripsi Merchant *"></v-textarea>
@@ -279,7 +304,7 @@
               label="Email Notifikasi *"
               hint="Email yang digunakan untuk "
             ></v-text-field>
-            <v-text-field v-model="form.website" label="Website *" hint="Contoh : Dipointer"></v-text-field>
+            <v-text-field v-model="form.website" label="Website *" hint="Contoh : www.website.com"></v-text-field>
             <v-select v-model="form.status" :items="select.status" label="Status *"></v-select>
             <div class="mt-3">
               <v-row class="mr-3">
@@ -287,8 +312,8 @@
                 <v-btn text color="primary" @click="steps--">
                   <v-icon>mdi-arrow-left</v-icon>Kembali
                 </v-btn>
-                <v-btn color="primary" @click="steps++">
-                  <v-icon>mdi-arrow-right</v-icon>Lanjut
+                <v-btn color="primary" @click="createMerchant()">
+                  <v-icon>mdi-save</v-icon>Simpan
                 </v-btn>
               </v-row>
             </div>
@@ -485,13 +510,13 @@
     <v-bottom-sheet v-model="dialog.menu.model">
       <v-list>
         <v-subheader>Dialog Menu</v-subheader>
-        <v-list-item @click="dialog.menu.model = false;dialogEditItem(dialog.menu.id)">
+        <v-list-item @click="dialog.menu.model = false;editItem(dialog.menu.id)">
           <v-list-item-avatar>
             <v-icon size="32px" tile>mdi-pencil-outline</v-icon>
           </v-list-item-avatar>
           <v-list-item-title>Edit Data Merchant</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="dialog.menu.model = false;dialogDestroyItem(dialog.menu.id)">
+        <v-list-item @click="dialog.menu.model = false;destroyItem(dialog.menu.id)">
           <v-list-item-avatar>
             <v-icon size="32px" tile>mdi-trash-can-outline</v-icon>
           </v-list-item-avatar>
@@ -585,7 +610,8 @@ export default {
         menu: {
           model: false,
           loading: false,
-          id: ""
+          id: "",
+          item: ""
         },
         profile: {
           model: false,
@@ -899,29 +925,29 @@ export default {
     editItem(item) {
       this.dialog.form.model = true;
       this.form.isEdit = true;
-      this.form.id = item.id;
-      this.form.mitra_id = item.mitra_id;
-      this.form.nama_merchant = item.nama_merchant;
-      this.form.jenis_merchant_id = item.jenis_merchant_id;
-      this.form.alamat = item.alamat;
-      this.form.provinsi_id = item.provinsi_id;
-      this.form.kabupaten_id = item.kabupaten_id;
-      this.form.kecamatan_id = item.kecamatan_id;
-      this.form.kelurahan_id = item.kelurahan_id;
-      this.form.deskripsi_merchant = item.deskripsi_merchant;
-      this.form.logo_merchant = item.logo_merchant;
-      this.form.cover_merchant = item.cover_merchant;
-      this.form.email_contact = item.email_contact;
-      this.form.email_notifikasi = item.email_notifikasi;
-      this.form.latitude = item.latitude;
-      this.form.longitude = item.longitude;
-      this.form.zoom = item.zoom;
-      this.form.website = item.website;
-      this.form.status = item.status;
+      this.form.id = this.dialog.menu.item.id;
+      this.form.mitra_id = this.dialog.menu.item.mitra_id;
+      this.form.nama_merchant = this.dialog.menu.item.nama_merchant;
+      this.form.jenis_merchant_id = this.dialog.menu.item.jenis_merchant_id;
+      this.form.alamat = this.dialog.menu.item.alamat;
+      this.form.provinsi_id = this.dialog.menu.item.provinsi_id;
+      this.form.kabupaten_id = this.dialog.menu.item.kabupaten_id;
+      this.form.kecamatan_id = this.dialog.menu.item.kecamatan_id;
+      this.form.kelurahan_id = this.dialog.menu.item.kelurahan_id;
+      this.form.deskripsi_merchant = this.dialog.menu.item.deskripsi_merchant;
+      this.form.logo_merchant = this.dialog.menu.item.logo_merchant;
+      this.form.cover_merchant = this.dialog.menu.item.cover_merchant;
+      this.form.email_contact = this.dialog.menu.item.email_contact;
+      this.form.email_notifikasi = this.dialog.menu.item.email_notifikasi;
+      this.form.latitude = this.dialog.menu.item.latitude;
+      this.form.longitude = this.dialog.menu.item.longitude;
+      this.form.zoom = this.dialog.menu.item.zoom;
+      this.form.website = this.dialog.menu.item.website;
+      this.form.status = this.dialog.menu.item.status;
     },
     destroyItem(item) {
       this.dialog.alert.model = true;
-      this.form.id = item.id;
+      this.form.id = this.dialog.menu.item.id;
     },
     updateMerchant() {
       this.dialog.form.loading = true;
@@ -950,9 +976,9 @@ export default {
         .post("merchant/create", params)
         .then(response => {
           this.table.items = response.data;
-          // this.dialog.form.model = false;
+          this.dialog.form.model = false;
           this.table.options.page = 1;
-          // this.fetchMerchant();
+          this.fetchMerchant();
           this.alert.model = true;
           this.alert.text = "Data Berhasil Di Tambah";
         })
