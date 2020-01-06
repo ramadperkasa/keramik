@@ -410,7 +410,7 @@ const routes = [
     }
   },
   {
-    path: "/produk/kategori/detail",
+    path: "/produk/kategori/detail/:id",
     name: "produk-kategori-detail",
     component: ProdukKategoriDetail,
     meta: {

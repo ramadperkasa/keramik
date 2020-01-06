@@ -397,9 +397,9 @@ export default {
           this.dialog.form.loading = false;
         });
     },
-    destroyMerchantMedsos() {
+    destroyMerchantMedsos(item) {
       this.dialog.alert.loading = true;
-      const jenis_medsos_id = this.form.jenis_medsos_id;
+      const jenis_medsos_id = item;
       const merchant_id = this.$route.params.id;
       this.axios
         .post("merchant/medsos/destroy", { jenis_medsos_id, merchant_id })

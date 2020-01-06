@@ -84,7 +84,6 @@ export default {
 </script>
 
 <style scoped>
-/* @import "/css/bootstrap.min.css"; */
 @import "/css/iofrm-style.css";
 @import "/css/iofrm-theme4.css";
 </style>

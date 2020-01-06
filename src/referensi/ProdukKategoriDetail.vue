@@ -2,19 +2,13 @@
   <app>
     <v-row>
       <v-col cols="8">
-        <span class="title pl-2">ProdukKategoriDetail</span>
+        <span class="title pl-2">Produk Kategori Detail</span>
       </v-col>
       <v-spacer></v-spacer>
       <div class="pr-4 align-self-center">
         <v-tooltip top>
           <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              text
-              color="primary"
-              class="mr-3"
-              @click="addItem()"
-            >
+            <v-btn v-on="on" text color="primary" class="mr-3" @click="addItem()">
               <v-icon>mdi-plus</v-icon>Baru
             </v-btn>
           </template>
@@ -34,23 +28,21 @@
         itemsPerPageOptions: pagination
       }"
     >
-      <template v-slot:item.no="{ item }">{{
+      <template v-slot:item.no="{ item }">
+        {{
         table.items.data.indexOf(item) + table.items.from
-      }}</template>
+        }}
+      </template>
       <template v-slot:item.action="{ item }">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small class="mr-2" @click="editItem(item)"
-              >mdi-pencil</v-icon
-            >
+            <v-icon v-on="on" small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
           </template>
           <span color="primary">Edit</span>
         </v-tooltip>
         <v-tooltip right>
           <template v-slot:activator="{ on }">
-            <v-icon v-on="on" small @click="destroyItem(item)"
-              >mdi-delete</v-icon
-            >
+            <v-icon v-on="on" small @click="destroyItem(item)">mdi-delete</v-icon>
           </template>
           <span>Hapus</span>
         </v-tooltip>
@@ -59,20 +51,20 @@
 
     <v-dialog v-model="dialog.alert.model" max-width="500">
       <v-card>
-        <v-card-title class="title"
-          >Apakah anda yakin ingin hapus data ProdukKategoriDetail
-          ini?</v-card-title
-        >
+        <v-card-title class="title">
+          Apakah anda yakin ingin hapus data Produk Kategori Detail
+          ini?
+        </v-card-title>
 
         <v-card-text>
           <v-row>
             <v-col cols="1" class="align-self-center pl-1">
               <v-icon large class>mdi-alert-circle</v-icon>
             </v-col>
-            <v-col cols="11"
-              >Data yang telah di hapus akan terhapus secara permanen, apakah
-              anda yakin ingin menghapus data ProdukKategoriDetail ini?</v-col
-            >
+            <v-col cols="11">
+              Data yang telah di hapus akan terhapus secara permanen, apakah
+              anda yakin ingin menghapus data Produk Kategori Detail ini?
+            </v-col>
           </v-row>
         </v-card-text>
         <v-divider></v-divider>
@@ -84,16 +76,14 @@
             :disabled="dialog.alert.loading"
             text
             @click="dialog.alert.model = false"
-            >Batal</v-btn
-          >
+          >Batal</v-btn>
           <v-btn
             color="primary"
             :loading="dialog.alert.loading"
             :disabled="dialog.alert.loading"
             text
             @click="destroyProdukKategoriDetail()"
-            >Hapus</v-btn
-          >
+          >Hapus</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -101,8 +91,7 @@
     <v-dialog v-model="dialog.form.model" persistent width="750">
       <v-card>
         <v-card-title primary-title>
-          <v-icon class="pr-2">{{ icon_form }}</v-icon
-          >Input Data ProdukKategoriDetail
+          <v-icon class="pr-2">{{ icon_form }}</v-icon>Input Data Produk Kategori Detail
           <v-spacer></v-spacer>
           <v-btn text @click="dialog.form.model = false">
             <v-icon>mdi-close</v-icon>
@@ -111,12 +100,6 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-           
-            <v-text-field
-              v-model="form.produk_kategori_sub2_kategori"
-              label="Produk Kategori Sub2 Kategori *"
-              hint="Contoh : Dipointer"
-            ></v-text-field>
             <v-text-field
               v-model="form.nama_detail"
               label="Nama Detail *"
@@ -184,7 +167,7 @@ export default {
       },
       form: {
         id: "",
-        produk_kategori_sub2_kategori: "",
+        produk_sub2_kategori_id: "",
         nama_detail: "",
         isEdit: false
       },
@@ -197,11 +180,6 @@ export default {
             width: 15,
             sortable: false,
             value: "no"
-          },
-          {
-            text: "Produk Kategori Sub2 Kategori",
-            value: "produk_kategori_sub2_kategori",
-            align: "left"
           },
           {
             text: "Nama Detail",
@@ -257,14 +235,15 @@ export default {
             ? "id"
             : this.table.options.sortBy[0],
         sortBy: this.table.options.sortDesc[0] ? "desc" : "asc",
-        search: this.search
+        search: this.search,
+        id: this.$route.params.id
       };
 
       const params = data;
       this.axios
-        .get("produkkategoridetail", { params })
+        .get("produk/kategori/detail", { params })
         .then(response => {
-          this.table.items = response.data.produkkategoridetail;
+          this.table.items = response.data.produk_kategori_detail;
         })
         .catch(error => {
           this.alert.model = true;
@@ -278,15 +257,14 @@ export default {
       this.form.isEdit = false;
       this.dialog.form.model = true;
       this.form.id = "";
-      this.form.produk_kategori_sub2_kategori = "";
+      this.form.produk_sub2_kategori_id = "";
       this.form.nama_detail = "";
     },
     editItem(item) {
       this.dialog.form.model = true;
       this.form.isEdit = true;
       this.form.id = item.id;
-      this.form.produk_kategori_sub2_kategori =
-        item.produk_kategori_sub2_kategori;
+      this.form.produk_sub2_kategori_id = item.produk_sub2_kategori_id;
       this.form.nama_detail = item.nama_detail;
     },
     destroyItem(item) {
@@ -295,9 +273,10 @@ export default {
     },
     updateProdukKategoriDetail() {
       this.dialog.form.loading = true;
+      this.form.produk_sub2_kategori_id = this.$route.params.id;
       const params = this.form;
       this.axios
-        .post("produkkategoridetail/update", params)
+        .post("produk/kategori/detail/update", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -315,9 +294,10 @@ export default {
         });
     },
     createProdukKategoriDetail() {
+      this.form.produk_sub2_kategori_id = this.$route.params.id;
       const params = this.form;
       this.axios
-        .post("produkkategoridetail/create", params)
+        .post("produk/kategori/detail/create", params)
         .then(response => {
           this.table.items = response.data;
           this.dialog.form.model = false;
@@ -336,9 +316,10 @@ export default {
     },
     updateNewProdukKategoriDetail() {
       this.dialog.form.loading = true;
+      this.form.produk_sub2_kategori_id = this.$route.params.id;
       const params = this.form;
       this.axios
-        .post("produkkategoridetail/update", params)
+        .post("produk/kategori/detail/update", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -357,9 +338,10 @@ export default {
     },
     createNewProdukKategoriDetail() {
       this.dialog.form.loading = true;
+      this.form.produk_sub2_kategori_id = this.$route.params.id;
       const params = this.form;
       this.axios
-        .post("produkkategoridetail/create", params)
+        .post("produk/kategori/detail/create", params)
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;
@@ -379,8 +361,9 @@ export default {
     destroyProdukKategoriDetail() {
       this.dialog.alert.loading = true;
       const id = this.form.id;
+      const sub_id = this.$route.params.id;
       this.axios
-        .post("produkkategoridetail/destroy", {id})
+        .post("produk/kategori/detail/destroy", { id, sub_id })
         .then(response => {
           this.table.items = response.data;
           this.table.options.page = 1;

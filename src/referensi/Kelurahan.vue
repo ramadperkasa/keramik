@@ -440,6 +440,7 @@ export default {
         });
     },
     createKelurahan() {
+      this.form.id = this.form.kecamatan_id + this.form.id;
       const params = this.form;
       this.axios
         .post("kelurahan/create", params)
@@ -482,6 +483,7 @@ export default {
     },
     createNewKelurahan() {
       this.dialog.form.loading = true;
+      this.form.id = this.form.kecamatan_id + this.form.id;
       const params = this.form;
       this.axios
         .post("kelurahan/create", params)

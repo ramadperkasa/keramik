@@ -33,13 +33,18 @@
         table.items.data.indexOf(item) + table.items.from
         }}
       </template>
+      <template v-slot:item.produk_sub1_kategori_id="{ item }">
+        {{
+        item.produk_sub1_kategori.nama
+        }}
+      </template>
       <template v-slot:item.action="{ item }">
         <v-tooltip left>
           <template v-slot:activator="{ on }">
             <v-icon
               v-on="on"
               class="mr-2"
-              @click="dialog.menu.model = true;dialog.menu.id = item.id"
+              @click="dialog.menu.model = true;dialog.menu.id = item.id;dialog.menu.item = item"
             >mdi-dots-vertical</v-icon>
           </template>
           <span color="primary">Lainnya</span>
@@ -98,32 +103,53 @@
         <v-divider></v-divider>
         <v-container>
           <v-card-text>
-            <v-combobox
-              v-model="form.produk_kategori_id"
-              :items="select.kategori1"
-              item-value="id"
-              label="Kategori *"
-              :return-object="false"
-              item-text="nama_produk_kategori"
-              clearable
-            >
-              <template v-slot:selection="data">{{filterDataKategori(data.item)}}</template>
-            </v-combobox>
-
-            <v-combobox
-              v-model="form.produk_subkategori_id1"
-              :items="select.kategori2 ? select.kategori2 : []"
-              item-value="id"
-              label="Subkategori 1 *"
-              :return-object="false"
-              item-text="nama"
-              :loading="loading.kategori2"
-              :disabled="!form.produk_kategori_id"
-              clearable
-            >
-              <template v-slot:selection="data">{{filterDataSubkategori1(data.item)}}</template>
-            </v-combobox>
-            <v-text-field v-model="form.nama" label="Nama *" hint="Contoh : Dipointer"></v-text-field>
+            <v-row>
+              <v-col cols="3" class="align-self-center d-flex justify-center">
+                <div v-if="form.foto_id == ''">
+                  <v-btn color="primary" outlined @click="setGaleriModel()">
+                    <v-icon>mdi-image</v-icon>Pilih Foto
+                  </v-btn>
+                  <c-galeri
+                    @id="f => { return this.form.foto_id = f.id , this.form.foto_nama = f.file_nama}"
+                  ></c-galeri>
+                </div>
+                <div v-else>
+                  <img
+                    :src="form.foto_nama"
+                    aspect-ratio="1"
+                    width="40"
+                    style="cursor:pointer"
+                    @click="form.foto_id = ''; form.foto_nama = ''"
+                  />
+                </div>
+              </v-col>
+              <v-col cols="9">
+                <v-combobox
+                  v-model="form.produk_kategori_id"
+                  :items="select.kategori1"
+                  item-value="id"
+                  label="Kategori *"
+                  :return-object="false"
+                  item-text="nama_produk_kategori"
+                  clearable
+                >
+                  <template v-slot:selection="data">{{filterDataKategori(data.item)}}</template>
+                </v-combobox>
+              </v-col>
+              <v-col cols="12">
+                <v-combobox
+                  v-model="form.produk_sub1_kategori_id"
+                  :items="select.kategori2 ? select.kategori2 : []"
+                  label="Subkategori 1 *"
+                  :loading="loading.kategori2"
+                  :disabled="!form.produk_kategori_id"
+                  clearable
+                ></v-combobox>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field v-model="form.nama" label="Nama *" hint="Contoh : Biskuit"></v-text-field>
+              </v-col>
+            </v-row>
           </v-card-text>
           <small>*Isian yang harus di isi</small>
         </v-container>
@@ -161,7 +187,31 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
+    <v-bottom-sheet v-model="dialog.menu.model">
+      <v-list>
+        <v-subheader>Dialog Menu</v-subheader>
+        <v-list-item @click="dialog.menu.model = false;editItem(dialog.menu.id)">
+          <v-list-item-avatar>
+            <v-icon size="32px" tile>mdi-pencil-outline</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title>Edit Data Merchant</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="dialog.menu.model = false;destroyItem(dialog.menu.id)">
+          <v-list-item-avatar>
+            <v-icon size="32px" tile>mdi-trash-can-outline</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title>Hapus Data Merchant</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          @click="dialog.menu.model = false;$router.push('/produk/kategori/detail/'+dialog.menu.id)"
+        >
+          <v-list-item-avatar>
+            <v-icon size="32px" tile>mdi-format-list-text</v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title>Lihat Detail Produk Kategori</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-bottom-sheet>
     <v-snackbar v-model="alert.model" bottom left :timeout="3000">
       {{ alert.text }}
       <v-btn color="primary" text @click="alert.model = false">Tutup</v-btn>
@@ -182,13 +232,20 @@ export default {
         alert: {
           model: false,
           loading: false
+        },
+        menu: {
+          model: false,
+          id: "",
+          item: {}
         }
       },
       form: {
         id: "",
         produk_kategori_id: "",
-        produk_subkategori_id1: "",
+        produk_sub1_kategori_id: "",
         nama: "",
+        foto_id: "",
+        foto_nama: "",
         isEdit: false
       },
       table: {
@@ -200,6 +257,11 @@ export default {
             width: 15,
             sortable: false,
             value: "no"
+          },
+          {
+            text: "Foto",
+            value: "foto_id",
+            align: "left"
           },
           {
             text: "Produk Sub1 Kategori Id",
@@ -244,7 +306,7 @@ export default {
       this.fetchProdukSub2Kategori(newValue);
     },
     "form.produk_kategori_id"(newValue) {
-      this.form.produk_subkategori_id1 = "";
+      this.form.produk_sub1_kategori_id = "";
       this.form.produk_subkategori_id2 = "";
       this.fetchProdukKategori2(newValue);
     }
@@ -329,13 +391,17 @@ export default {
       this.form.id = "";
       this.form.produk_sub1_kategori_id = "";
       this.form.nama = "";
+      this.form.foto_id = "";
+      this.form.foto_nama = "";
     },
-    editItem(item) {
+    editItem() {
       this.dialog.form.model = true;
       this.form.isEdit = true;
-      this.form.id = item.id;
-      this.form.produk_sub1_kategori_id = item.produk_sub1_kategori_id;
-      this.form.nama = item.nama;
+      this.form.id = this.dialog.menu.item.id;
+      this.form.produk_sub1_kategori_id = this.dialog.menu.item.produk_sub1_kategori_id;
+      this.form.nama = this.dialog.menu.item.nama;
+      this.form.foto_id = this.dialog.menu.item.foto_id;
+      this.form.foto_nama = this.dialog.menu.item.foto_nama;
     },
     destroyItem(item) {
       this.dialog.alert.model = true;
@@ -426,7 +492,7 @@ export default {
     },
     destroyProdukSub2Kategori() {
       this.dialog.alert.loading = true;
-      const id = this.form.id;
+      const id = this.dialog.menu.id;
       this.axios
         .post("produk/subkategori2/destroy", { id })
         .then(response => {
@@ -453,13 +519,9 @@ export default {
         }).nama_produk_kategori;
       }
     },
-    filterDataSubkategori1(item) {
-      const kategori2 = this.select.kategori2;
-      if (kategori2.length > 0) {
-        return kategori2.find(f => {
-          return f.id === item;
-        }).nama;
-      }
+
+    setGaleriModel() {
+      store.commit("setGaleriModel", true);
     }
   }
 };
